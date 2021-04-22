@@ -74,7 +74,7 @@ class JlBokingComp extends React.Component {
 
     let b_id = Date.now();
     console.log(b_id);
-    let bokning = new Bokning(this.state.state_bokningsId ,t_tid, t_datum, t_namn, t_tel, t_assis, t_behandling);
+    let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false);
     console.log(JSON.stringify(bokning));
     let bokningstest = new DbBokingTest();
 

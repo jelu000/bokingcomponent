@@ -1,0 +1,9 @@
+.DayPicker{
+  color: white;
+  background-color: #3366BB;
+  border-radius: 10px;
+  display: flex;
+  width: 300px;
+  height: 300px;
+
+}

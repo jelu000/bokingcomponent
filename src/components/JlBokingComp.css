@@ -1,0 +1,61 @@
+.MainBokingDiv{
+  padding: 40px;
+
+  display: block;
+}
+ input{
+   margin: 10px;
+   /*color: #3366BB;*/
+   /*border-top-color: #3366BB;*/
+ }
+
+ h1{
+   font-family: sans-serif;
+   font-variant: normal;
+   font-weight: normal;
+   text-decoration: underline;
+
+ }
+
+h3{
+  font-family: sans-serif;
+  font-variant: small-caps;
+  font-weight: bold;
+  text-decoration: underline;
+
+}
+div{
+
+}
+.innerdivs{
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+hr{
+  margin-top: 40px;
+}
+
+#idpris{
+
+}
+#bokningskoll{
+  width: 400px;
+  border-width: thin;
+  border-style: solid;
+  border-color: red;
+  color: red;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+table#b_bokningstable{
+  width: 700px;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+  border: 1px solid black;
+}

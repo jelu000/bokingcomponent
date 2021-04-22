@@ -1,0 +1,6 @@
+//GammalKalender
+<DayPicker
+  id="kalendern"
+  selectedDays={this.state.valtDatum}
+  onDayClick={this.clickDagEvent}
+/>

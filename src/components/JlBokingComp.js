@@ -181,7 +181,7 @@ class JlBokingComp extends React.Component {
           <hr/>
           <h3>Lista Bokningar {this.state.valtDatumTextfelt}</h3>
 
-          <BokingTable />
+          <BokingTable bokningsarray={this.state.arraybokningar} />
 
 
       </div>

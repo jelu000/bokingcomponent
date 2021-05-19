@@ -29,6 +29,10 @@ class BokingTable extends React.Component {
     //Gör om prop till local array
     let bokingsarray_prop = this.props.bokningsarray;
 
+
+    //Plockar ut bokningar för valt datum! Kanke ska ligga i förälder Komponent?
+
+
     //Sorterar efter tid
     //Comperator Arrowfunktion
     //let compareTime = (boking_a, boking_b) => {

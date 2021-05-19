@@ -27,25 +27,49 @@ class JlBokingComp extends React.Component {
     console.log(today_date);
 
     this.state = {
+      //För Kalender
       valtDatum: today_date,
       valtDatumTextfelt: today_date.toLocaleDateString(),
       locale: 'swe',
       assistents: ["Jens"],
       tidtim: '8',
       tidmin: '00',
+
+      //För bokning
       internetbokning: false,
       behandlingar: ["klipning", "färgning", "slinger"],
       arraybokningar: [],
       state_bokningskoll: 'Bokningskoll',
-      state_dagensbokningar: [],
-      state_aktivbokning: [],
-      state_bokningsId: ''
+
+      state_bokningsId: '',
+      state_valdBokning: Object
 
     };
 
     this.clickDagEvent = this.clickDagEvent.bind(this);
     this.clickBoka = this.clickBoka.bind(this);
   }//end of constructor
+
+
+/*componentDidMount
+Initate LocalStorage
+*/
+  componentDidMount(){
+  //console.log("Did Mount");
+  const t_bokingsarray = localStorage.getItem('allbokings');
+
+  if (t_bokingsarray){
+    const savedBokings = JSON.parse(t_bokingsarray);
+
+    this.setState({
+      arraybokningar: savedBokings
+    });
+    console.log('ComponentDidMount-Alla bokningar: ', t_bokingsarray);
+  }
+  else{
+    console.log('ComponentDidMount-Inga bokningar');
+  }
+}//end of componentDidMount
 
 
 
@@ -76,12 +100,16 @@ class JlBokingComp extends React.Component {
     console.log(b_id);
     let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false);
     console.log(JSON.stringify(bokning));
-    let bokningstest = new DbBokingTest();
+
+    //Kanske för DB sen
+    //let bokningstest = new DbBokingTest();
 
     await this.setState({
         arraybokningar: [...this.state.arraybokningar, bokning],
         state_bokningskoll: bokningskoll_text,
-        state_dagensbokningar: bokningstest.getDayBokings(this.state.arraybokningar, t_datum)//valtDatumTextfelt
+
+        //Kanske för DB sen
+        //state_dagensbokningar: bokningstest.getDayBokings(this.state.arraybokningar, t_datum)//valtDatumTextfelt
     })
 
     //console.log("Längd: " + this.state.state_dagensbokningar.length);
@@ -181,7 +209,7 @@ class JlBokingComp extends React.Component {
           <hr/>
           <h3>Lista Bokningar {this.state.valtDatumTextfelt}</h3>
 
-          <BokingTable bokningsarray={this.state.arraybokningar} />
+          <BokingTable bokningsarray={this.state.arraybokningar} / >
 
 
       </div>

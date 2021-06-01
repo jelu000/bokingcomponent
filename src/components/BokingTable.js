@@ -6,7 +6,7 @@ class BokingTable extends React.Component {
   constructor(props){
     super(props);
   }
-
+/*
   printTable(){
 
     console.log(JSON.stringify(this.props.bokningsarray));
@@ -23,14 +23,18 @@ class BokingTable extends React.Component {
       )
     })
   }
-
+*/
   render () {
 
     //Gör om prop till local array
     let bokingsarray_prop = this.props.bokningsarray;
 
-
     //Plockar ut bokningar för valt datum! Kanke ska ligga i förälder Komponent?
+    //let bokingsarray_prop = this.props.bokningsarray.filter(function (e) {
+      //return e.t_date === this.props.valtkalenederdatum;
+    //});
+
+
 
 
     //Sorterar efter tid
@@ -44,7 +48,7 @@ class BokingTable extends React.Component {
       //}
       //return 0;
     //}
-    console.log("Ej Sorterad: " + JSON.stringify(bokingsarray_prop));
+    //console.log("Ej Sorterad: " + JSON.stringify(bokingsarray_prop));
     function compareTime(boking_a, boking_b){
 
       let t_array_time1 = boking_a.t_time.split(":");
@@ -54,12 +58,12 @@ class BokingTable extends React.Component {
       let bokingtime2 = new Date().setHours(Number(t_array_time2[0]), t_array_time2[1], 0, 0);
 
       if (bokingtime1 < bokingtime2){
-        console.log(boking_a.t_time + "<" + boking_b.t_time);
+        //console.log(boking_a.t_time + "<" + boking_b.t_time);
         return -1;
       }
 
       if (bokingtime1 > bokingtime2){
-        console.log(">");
+        //console.log(">");
         return 1;
       }
       return 0;
@@ -68,7 +72,7 @@ class BokingTable extends React.Component {
 
     //Sorterar
     let bokingsarray = bokingsarray_prop.sort( compareTime );
-    console.log("Sorterad!: " + JSON.stringify(bokingsarray));
+    //console.log("Sorterad!: " + JSON.stringify(bokingsarray));
 
     let t_datatable = bokingsarray.map( (bokingobject) => {
       return (

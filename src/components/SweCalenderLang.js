@@ -38,6 +38,8 @@ export default function Swedish(props) {
       firstDayOfWeek={1}
       selectedDays={props.valtdatum}
       onDayClick={props.onDayClickEvent}
+      onMonthChange={props.onMonthChangeEvent}
+      showWeekNumbers
     />
   );
 }

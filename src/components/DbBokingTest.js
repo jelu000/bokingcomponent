@@ -1,4 +1,4 @@
-import Bokning from './Bokning';
+//import Bokning from './Bokning';
 
 export default class DbBokingTest {
   constructor() {

@@ -1,10 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 import './JlBokingComp.css'
 
 class BokingTable extends React.Component {
   constructor(props){
     super(props);
+    
   }
 /*
   printTable(){
@@ -28,6 +29,8 @@ class BokingTable extends React.Component {
 
     //Gör om prop till local array
     let bokingsarray_prop = this.props.bokningsarray;
+    //let bokingButtEvtProp = this.props.buttValdBokingEvt;
+let bokingButtEvtProp = this.props.testClickEvt;
 
     //Plockar ut bokningar för valt datum! Kanke ska ligga i förälder Komponent?
     //let bokingsarray_prop = this.props.bokningsarray.filter(function (e) {
@@ -70,10 +73,11 @@ class BokingTable extends React.Component {
     }
 
 
+
     //Sorterar
     let bokingsarray = bokingsarray_prop.sort( compareTime );
     //console.log("Sorterad!: " + JSON.stringify(bokingsarray));
-
+    //onClick={this.props.buttValdBokingEvt(this)}  bokingButtEvtProp(this)
     let t_datatable = bokingsarray.map( (bokingobject) => {
       return (
         <tr className="bordertable" key={bokingobject.t_id}>
@@ -81,7 +85,7 @@ class BokingTable extends React.Component {
           <td className="bordertable">{bokingobject.t_name}</td>
           <td className="bordertable">{bokingobject.t_phone}</td>
           <td className="bordertable">{bokingobject.t_treatment}</td>
-          <td className="bordertable"><button id={bokingobject.t_id}>Välj</button></td>
+          <td className="bordertable"> <input type="button" value="välj" id={bokingobject.t_id} onClick={this.props.testClickEvt}/> </td>
         </tr>
       )
     })

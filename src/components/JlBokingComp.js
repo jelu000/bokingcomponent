@@ -50,7 +50,7 @@ class JlBokingComp extends React.Component {
 
       arraybokningar: [],
       state_vald_dag_arraybokningar: [],
-      state_valdBokning: Object
+      state_valdBokningObject: Bokning
 
     };
 
@@ -235,19 +235,13 @@ Initate LocalStorage
   }
 
   valdBokingEvt(evt){
-    console.log(`valdBokingEvt ${evt.id}`);
+    console.log(`valdBokingEvt ${evt.target.id}`);
 
 }
 
   //GAMMAL INPUT: value={this.state.valtDatum.toLocaleDateString()}
   render () {
-    let testClickEvt = () => {
-      console.log(`testClickEvt`);
-    }
-
-    //
-
-
+    
     /*Detta tar plockar ut dagens bokningar från localstorage för att visa i BokingTable.
     Så detta behövs ej om man hämtar dagar med bokningar från databas!
     Då kommer arraybokningar att vara dag bokningar och inte alla bokningar.
@@ -310,7 +304,7 @@ Initate LocalStorage
           <hr/>
           <h3>Lista Bokningar {this.state.valtDatumTextfelt}</h3>
           
-           <BokingTable buttValdBokingEvt={this.testClickEvt} bokningsarray={this.state.state_vald_dag_arraybokningar} / >
+           <BokingTable state_valdBokningObject={this.state.state_valdBokningObject} buttValdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar} / >
           
 
       </div>

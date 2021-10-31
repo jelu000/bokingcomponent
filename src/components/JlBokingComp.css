@@ -57,3 +57,8 @@ th, td {
   text-align: left;
   border: 1px solid black;
 }
+.checktablebutt {
+  color: darkgreen;
+  font-weight: bolder;
+  font-size: larger;
+}

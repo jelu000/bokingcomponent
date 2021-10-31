@@ -8,25 +8,16 @@ import './JlBokingComp.css'
 class BokingTable extends React.Component {
   constructor(props){
     super(props);
-
-
-    this.bokingTableButtClick = this.bokingTableButtClick.bind(this);
-    this.bokingTableRowClick = this.bokingTableRowClick.bind(this);
-
+ 
+    this.valdBokingEvt = this.valdBokingEvt.bind(this);
   }
 
-
-bokingTableButtClick(evt){
-  const t_name = evt.target.getAttribute('value');
-  console.log(`tableButtClick: ${evt.target.id} : ${t_name}`);
-  this.props.buttValdBokingEvt(evt);
+valdBokingEvt(e){
+  console.log(`BokingTable.valdBokingEvt ${e.t_time}`);
+  this.props.valdBokingEvt(e);
 }
 
-bokingTableRowClick(e){
-  //const row = e.target.getAttribute('data-title');
-  //console.log(`rowClick ${row.t_name}`);
-  //this.props.buttValdBokingEvt(evt.key);
-}
+
 
 render () {
 
@@ -54,13 +45,12 @@ render () {
       return 0;
     }
 
-//state_valdBokningObject
-
     //Sorterar
     let bokingsarray = bokingsarray_prop.sort( compareTime );
     //console.log("Sorterad!: " + JSON.stringify(bokingsarray));
     //onClick={this.bokingTableRowClick}
   
+    //Skriver ut tabell med bokmingar
     let t_datatable = bokingsarray.map( (bokingobject) => {
       
       let bokning = new Bokning(bokingobject.t_id , bokingobject.t_time, bokingobject.t_date, bokingobject.t_name, bokingobject.t_email,  bokingobject.t_phone, bokingobject.t_assistent, bokingobject.t_treatment, bokingobject.t_inetboking, bokingobject.t_babs);
@@ -71,7 +61,7 @@ render () {
           <td className="bordertable" data-title="t_name">{bokingobject.t_name}</td>
           <td className="bordertable" data-title="t_phone">{bokingobject.t_phone}</td>
           <td className="bordertable" data-title="t_treatment">{bokingobject.t_treatment}</td>
-          <td className="bordertable" value={bokingobject.t_name}> <BokingTableButton bokning={bokning} state_valdBokningObject={this.props.state_valdBokningObject} id={bokingobject.t_id} onClick={this.bokingTableButtClick}/> </td>
+          <td className="bordertable" value={bokingobject.t_name}> <BokingTableButton bokning={bokning} state_valdBokningObject={this.props.state_valdBokningObject} id={bokingobject.t_id} valdBokingEvt={this.valdBokingEvt}/> </td>
         </tr>
       )
     })

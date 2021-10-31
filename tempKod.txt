@@ -31,6 +31,17 @@
       //return e.t_date === this.props.valtkalenederdatum;
     //});
 
+//bokingTableButtClick(evt){
+  //const t_name = evt.target.getAttribute('value');
+  //console.log(`tableButtClick: ${evt.target.id} : ${t_name}`);
+  //this.props.buttValdBokingEvt(evt);
+//}
+
+//bokingTableRowClick(e){
+  //const row = e.target.getAttribute('data-title');
+  //console.log(`rowClick ${row.t_name}`);
+  //this.props.buttValdBokingEvt(evt.key);
+//}
     
 
 
@@ -46,3 +57,35 @@
       //return 0;
     //}
     //console.log("Ej Sorterad: " + JSON.stringify(bokingsarray_prop));
+
+
+
+//lägger till den nya bokningen till state arraybokningar
+        //Gammalt---------------------------------------------------------
+        //arraybokningar: [...this.state.arraybokningar, bokning],
+        //uppdatera bokningskoll text med hjälpa av set state
+        //---------------------------------------------------------------
+        //NYTT--
+        //state_vald_dag_arraybokningar: t_dagarray_bokningar,
+        //--
+
+        //GAMMALT------------------------------------------------------------------------------------
+    //Truncerar och lägger till den nya arrayen med den nya tillagda bokningen  till LocalStorage
+    //localStorage.setItem('bokningar', JSON.stringify(this.state.arraybokningar));
+    //console.log("Längd: " + this.state.state_dagensbokningar.length);
+    //------------------------------------------------------------------
+
+
+    //GAMMALT componentDidMount() -------------------------------------------------------------------------
+  //---if (t_bokingsarray){
+    //const savedBokings = JSON.parse(t_bokingsarray);
+
+    //this.setState({
+      //arraybokningar: savedBokings
+    //});
+    //console.log('ComponentDidMount-Alla bokningar: ', t_bokingsarray);
+    //console.log('ComponentDidMount-Alla bokningar');
+  //}
+  //else{
+    //console.log('ComponentDidMount-Inga bokningar');
+  //--}

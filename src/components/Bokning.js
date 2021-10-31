@@ -10,5 +10,5 @@ export default class Bokning {
       this.t_treatment=t_treatment;
       this.t_inetboking=t_inetboking;
       this.t_babs=t_babs;
-  }
+  } 
 }

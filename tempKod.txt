@@ -89,3 +89,33 @@
   //else{
     //console.log('ComponentDidMount-Inga bokningar');
   //--}
+
+
+
+  ------------------------------------------------------
+  //Lägger till de nya bokningsobjektet till arrayen
+    //bokingArrayObjects.push(new_boking_obj); 
+        //console.log(`Class LoacalStorageHandler lägger till: ${new_boking_obj}`);
+        //Sparar ner de till LocalStorage
+    //localStorage.setItem(this.key, JSON.stringify(bokingArrayObjects));
+
+
+
+       //Hämtar jsons sträng array från LocalStorage med bokningar
+        //bokingArray = localStorage.getItem(this.key);
+        //console.log(`LocalStorage.addBoking: ${bokingArray}`);
+        //let bokingArrayObjects = JSON.parse(bokingArray);
+
+
+//---------------------------------
+
+/*Detta tar plockar ut dagens bokningar från localstorage för att visa i BokingTable.
+    Så detta behövs ej om man hämtar dagar med bokningar från databas!
+    Då kommer arraybokningar att vara dag bokningar och inte alla bokningar.
+    */
+    //let valtdatum = this.state.valtDatumTextfelt;
+    //GAMMALT----------------------------------------------------------------------
+    //let t_array_dagens_bokningar = this.state.arraybokningar.filter(function (e) {
+    //return e.t_date === valtdatum;
+    //});
+    //Slut på dag bokningar

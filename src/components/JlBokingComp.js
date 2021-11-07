@@ -48,7 +48,7 @@ class JlBokingComp extends React.Component {
       state_tel: '', //Användst inte för då krävs onChange och rener för varje bokstav
 
 
-      state_bokningskoll: 'Bokningskoll',
+      state_bokningskoll: '',
       state_bokningsId: '',
 
       arraybokningar: [],
@@ -95,7 +95,6 @@ Initate LocalStorage
 }//end of componentDidMount
 
 
-
 //clickDagEvent-----------------------------------------------------------------------------------
   async clickDagEvent(dag){
     let t_dag = dag.toLocaleDateString();
@@ -116,6 +115,8 @@ Initate LocalStorage
      
      this.clearTextInputs();
      //console.log(`Kill: ${this.state.valtDatum} : ${this.state.valtDatumTextfelt}`)
+     this.setState({state_bokningskoll: ""});
+     console.log(`clickDagEvent 119 state_bokningskoll ${this.state.state_bokningskoll}`);
   }
 
   //clickMonthChange()-----------------------------------------------------------------------------
@@ -156,7 +157,7 @@ Initate LocalStorage
       //console.log(b_id);
 
       //skriver ut boknings koll text
-      let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}. BokningsId: ${b_id}  `
+      let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}.  `
       //Skapar boknings objekt från boknings klass
       let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false);
 
@@ -205,9 +206,6 @@ Initate LocalStorage
 
       
     }
-
-     
-
 
     this.clearTextInputs();
   }
@@ -311,17 +309,12 @@ Initate LocalStorage
   
   //render()-------------------------------------------------------------------------------------------------
   render () {
-    
-    /*Detta tar plockar ut dagens bokningar från localstorage för att visa i BokingTable.
-    Så detta behövs ej om man hämtar dagar med bokningar från databas!
-    Då kommer arraybokningar att vara dag bokningar och inte alla bokningar.
-    */
-    //let valtdatum = this.state.valtDatumTextfelt;
-    //GAMMALT----------------------------------------------------------------------
-    //let t_array_dagens_bokningar = this.state.arraybokningar.filter(function (e) {
-    //return e.t_date === valtdatum;
-    //});
-    //Slut på dag bokningar
+       
+    let bokningskoll_div;
+
+    if (this.state.state_bokningskoll !== ""){
+      bokningskoll_div = <div className="innerdivs"><p id="bokningskoll">{this.state.state_bokningskoll}</p></div>
+    }
     
     return (
       <div className="MainBokingDiv">
@@ -367,10 +360,9 @@ Initate LocalStorage
             </div>
           </div>
 
-
-          <div className="innerdivs"><p id="bokningskoll">{this.state.state_bokningskoll}</p></div>
-
-
+          
+          {bokningskoll_div}
+            
 
           <hr/>
           <h3>Lista Bokningar {this.state.valtDatumTextfelt}</h3>

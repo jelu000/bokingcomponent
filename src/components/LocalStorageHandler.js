@@ -1,9 +1,23 @@
 //import Bokning from "./Bokning";
+import Treatment from "./behandlingar/Treatment";
 //LocalStorageHandler simulerar Databas för åtkomst REST api
 
 export default class LocalStorageHandler {
     constructor(){
         this.key = 'bokningar';
+
+        
+        
+        //För Simuler Databas med behandlingar-----------------------------------------------
+        let treatment_array = [{t_id: "1", t_name: "Klippning", t_time: "45", t_price: "600"}];
+        
+        let t_treat = new Treatment("2", "Färgning", "60", "1000" );
+        treatment_array.push(t_treat);
+                
+        treatment_array.push(new Treatment("3", "Slingor", "75", "1200" ));
+        treatment_array.push(new Treatment("4", "Klippning & Färgning", "120", "1600" ));
+        
+        this.global_treatment_array = treatment_array;//Databas med behandlingar
     
     }
 
@@ -93,11 +107,22 @@ export default class LocalStorageHandler {
 
          let t_filtered_bokings = bokingarray_obj.filter( bokobj =>  bokobj.t_id !== id);
 
-         let t_filtered_bokings_json = JSON.stringify(t_filtered_bokings);
+         //let t_filtered_bokings_json = JSON.stringify(t_filtered_bokings);
          //console.log(t_filtered_bokings_json);
 
          localStorage.setItem(this.key, JSON.stringify(t_filtered_bokings));
          
     }
+
+    getTreatments(){
+        
+
+       // console.log(`getTreatments(): ${JSON.stringify(treatment_array)}`);
+
+        return this.global_treatment_array;
+        
+    }
+
+    
 
 }

@@ -119,3 +119,15 @@
     //return e.t_date === valtdatum;
     //});
     //Slut på dag bokningar
+
+----------------------------------------------------
+     <div className="rooten">      
+
+     :root {
+    --bg: darkgreen;
+    --bg-accent: green;
+    --text-color: white;
+    --border: green;
+    --borer-radius: 8px;
+    --speed: 500ms;
+}

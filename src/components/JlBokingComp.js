@@ -16,8 +16,6 @@ import BokingTable from "./BokingTable";
 import LocalStorageHandler from './LocalStorageHandler';
 
 
-
-
 class JlBokingComp extends React.Component {
 
   constructor(props){
@@ -66,7 +64,7 @@ class JlBokingComp extends React.Component {
     this.clickMonthChange = this.clickMonthChange.bind(this);
     this.valdBokingEvt = this.valdBokingEvt.bind(this);
     this.clickAvbokaEvt = this.clickAvbokaEvt.bind(this);
-  }//end of constructor----------------------------------------------
+  }//end of constructor()-----------------------------------------------------------------------
 
 
   /*clearTextInputs()------------------------------------------------------------------------------
@@ -92,7 +90,7 @@ class JlBokingComp extends React.Component {
       state_bokningsId: "",
       pris: vald_treatment.t_price
     });
-  }
+  }//end clearTextInputs()------------------------------------------------------------------------
 
 /*componentDidMount -------------------------------------------------------------------------------
 Initate LocalStorage
@@ -110,14 +108,14 @@ Initate LocalStorage
     pris: t_array_behandlingar[0].t_price
   });
   
-}//end of componentDidMount
+}//end of componentDidMount-------------------------------------------------------------------------
 
 
-//clickDagEvent-----------------------------------------------------------------------------------
+//clickDagEvent() - för calender-----------------------------------------------------------------------
   async clickDagEvent(dag){
     let t_dag = dag.toLocaleDateString();
 
-    console.log(`ckicDagEvent line 112: ${t_dag}`);
+    //console.log(`ckicDagEvent line 112: ${t_dag}`);
     
     let localStorageDB = await new LocalStorageHandler();
     let dagensbokningar = await localStorageDB.getBokingsDay(t_dag);
@@ -126,8 +124,6 @@ Initate LocalStorage
     await this.setState({
       valtDatum: dag,
       valtDatumTextfelt: t_dag,
-    
-      //state_vald_dag_arraybokningar: localStorageDB.getBokingsDay(this.state.valtDatumTextfelt) OBS detta funkade inte
       state_vald_dag_arraybokningar: dagensbokningar
      });
      
@@ -135,7 +131,7 @@ Initate LocalStorage
      //console.log(`Kill: ${this.state.valtDatum} : ${this.state.valtDatumTextfelt}`)
      this.setState({state_bokningskoll: ""});
      console.log(`clickDagEvent 119 state_bokningskoll ${this.state.state_bokningskoll}`);
-  }
+  }//end of clickDagEvent()--------------------------------------------------------------------
 
   //clickMonthChange()-----------------------------------------------------------------------------
   clickMonthChange(month){
@@ -144,26 +140,18 @@ Initate LocalStorage
 
     this.clearTextInputs();
 
-  }
+  }//end of clickMonthChange()-------------------------------------------------------------
   
   //clickBoka()------------------------------------------------------------------------------------
   async clickBoka(){
-
+    //Namn på kund måste fyllas i
     if (document.getElementById("textfelt_namn").value ===""){
       alert("Namn på kund krävs!")
     }
-    else{
-      //let t_tid_tim = document.getElementById("id_timmar").value;
-      //let t_tid_min = document.getElementById("id_min").value;
-      //let t_tid = `${t_tid_tim}:${t_tid_min}`
-
+    else{      
       //hämtar tid och datum inputs
       let t_tid = this.state.tidtim + ":" + this.state.tidmin;
-      //let t_datum = document.getElementById("valt_datum").value;
       let t_datum = this.state.valtDatumTextfelt;
-
-      //hämtar id
-      
 
       //hämtar boknings info inputs
       let t_namn = document.getElementById("textfelt_namn").value;
@@ -181,62 +169,52 @@ Initate LocalStorage
         //skriver ut boknings koll text
         let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}.  `
         //Skapar boknings objekt från boknings klass
-        let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false);
-
-        //console.log(JSON.stringify(bokning));
+        let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false, this.state.pris);
 
         //Local storage kanske för DB sen
         let localStorageDB = new LocalStorageHandler();
         let t_dagarray_bokningar = localStorageDB.addBoking(bokning);
-        console.log(`addBoking: ${ JSON.stringify(t_dagarray_bokningar)}`);
-        //let t_dagarray_bokningar = LocalStorageHandler.getBokingsDay(this.state.valtDatumTextfelt);
-  
         
-        //Rensar text inputs fällt i bokningsformuläret
+        //console.log(`addBoking: ${ JSON.stringify(t_dagarray_bokningar)}`);
+        
         //sätter state och uppdaterar grafiskt användar gränssnitt för de komponenter som påverkas av detta
         await this.setState({
-            
+          //uppdaterar bokningskoll med text om bokning  
           state_bokningskoll: bokningskoll_text,
           //uppdatera bokningsId text med hjälpa av set state och nya b_id
           state_bokningsId: b_id,
-
+          //uppdaterar tabell med bokningar genom state_vald_dag_arraybokningar
           state_vald_dag_arraybokningar: t_dagarray_bokningar
-
-          //Kanske för DB sen
-          //state_dagensbokningar: bokningstest.getDayBokings(this.state.arraybokningar, t_datum)//valtDatumTextfelt
         })
-        
-        //this.state.state_dagensbokningar = bokningstest.getDayBokings(this.state.arraybokningar, t_datum);
       }
       //Om det är en ombokning
       else{
         //skriver ut boknings koll text
         let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}. BokningsId: ${this.state.state_bokningsId}  `
         //Skapar boknings objekt från boknings klass
-        let bokning = new Bokning(this.state.state_bokningsId ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false);
+        let bokning = new Bokning(this.state.state_bokningsId ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false, this.state.pris);
 
-        //console.log(JSON.stringify(bokning));
-        console.log(`Uppdatera!!! ${this.state.state_bokningsId} namn: ${bokning.t_name}`);
-        //Local storage kanske för DB sen
+        //console.log(`Uppdatera!!! ${this.state.state_bokningsId} namn: ${bokning.t_name}`);
+        //Local storage handler för DB och kanske för DB sen
         let localStorageDB = new LocalStorageHandler();
         let t_arraydag_bokningar = localStorageDB.updateBoking(this.state.state_bokningsId, bokning);
+        
         await this.setState({
           state_bokningskoll: bokningskoll_text,
-          //uppdaterar tabell med bokningar
+          //uppdaterar tabell med bokningar genom state_vald_dag_arraybokningar
           state_vald_dag_arraybokningar: t_arraydag_bokningar       
         })
 
         
       }
-
+      //Tömmer textFällt
       this.clearTextInputs();
-
     }
-  }
+  }//end of clickBoka()----------------------------------------------------------------------------
 
   //clickAvbokaEvt()--------------------------------------------------------------------------------
   async clickAvbokaEvt(e){
-    console.log(`Avboka id: ${this.state.state_bokningsId}`);
+    //console.log(`Avboka id: ${this.state.state_bokningsId}`);
     let lstore_handler = new LocalStorageHandler();
     await lstore_handler.deleteBoking(this.state.state_bokningsId);
     let t_array_dagbokningar = await lstore_handler.getBokingsDay(this.state.valtDatumTextfelt);
@@ -247,8 +225,7 @@ Initate LocalStorage
     });
 
     this.clearTextInputs();
-
-  }
+  }//end of clickAvbokaEvt()----------------------------------------------------------------------
 
   //handleClickTim--------------------------------------------------------------------------------
   handleClickTim = (evt) => { this.setState({ tidtim: evt.target.value }) }
@@ -262,7 +239,7 @@ Initate LocalStorage
 
       </select>
     );
-  }
+  }//end of handleClickTim----------------------------------------------------------------
 
   //handleClickMin-------------------------------------------------------------------------------
   handleClickMin = (evt) => { this.setState({ tidmin: evt.target.value }) }
@@ -276,26 +253,30 @@ Initate LocalStorage
 
       </select>
     );
-  }
+  }//end of handleCickMin---------------------------------------------------------------
 
   //editPrice()--------------------------------------------------------------------------
   editPrice = (e) => {
 
-    this.setState({
-      pris: e.target.value
-    });
-  }
+    if (!isNaN(e.target.value)){
+      this.setState({
+        pris: e.target.value
+      });
+    }
+    else{
+      alert("Endast siffror är tillåtna");
+    }
+  }//end of editPrice()-----------------------------------------------------------------
 
   //handleClickTreatment()---------------------------------------------------------------
   handleClickTreatment = (e) => {
     
-
     let vald_treatment = this.state.behandlingar.find((t_object) => { return t_object.t_name === e.target.value; });
     //console.log(`pris: ${vald_treatment.t_price}`);
     
     this.setState({ pris: vald_treatment.t_price});
-
-  }
+  }//end of handleClickTreatment()-------------------------------------------------------
+  
   //selectTreatment()-----------------------------------------------------------------------------
   selectTreatment(){
 
@@ -307,7 +288,7 @@ Initate LocalStorage
 
       </select>
     );
-  }
+  }//end of selectTreatment()----------------------------------------------------------------------
 
   /* 
   valdBokingEvt(evt)
@@ -316,12 +297,9 @@ Initate LocalStorage
   valdBokingEvt(evt){
     
     //Kanske inte behövs för att uppdatera bokning - räcker med bokning id!
-    console.log(`valdBokingEvt t_time: ${evt.t_time}`);
-    let t_boking = new Bokning(evt.t_id, evt.t_time, evt.t_date, evt.t_name, evt.t_email, evt.t_phone, evt.t_assistent, evt.t_treatment, evt.t_inetboking, evt.t_babs);
-    //används för att uppdatera vald bokning
-    this.setState({state_valdBokning: t_boking});
-    //-------
-    
+    //console.log(`valdBokingEvt t_time: ${evt.t_time}`);
+    let t_boking = new Bokning(evt.t_id, evt.t_time, evt.t_date, evt.t_name, evt.t_email, evt.t_phone, evt.t_assistent, evt.t_treatment, evt.t_inetboking, evt.t_babs, evt.t_price);
+   
     document.getElementById("textfelt_namn").value = evt.t_name;
     document.getElementById("textfelt_tel").value = evt.t_phone;
      
@@ -333,24 +311,20 @@ Initate LocalStorage
     document.getElementById("id_min").value=t_tidarray[1];
     //Sätter selecten för behandling
     document.getElementById("id_treatment").value=evt.t_treatment;
-    //Sätter selecten för biträde
-    //document.getElementById("id_treatment").value=evt.t_treatment;
-    //Sätter input för pris
-    document.getElementById("idpris").value="0";
-    
-    
-    //console.log(`valdBokingEvt t_tim ${t_tidarray[0]}`);
+     
+    //används för att uppdatera vald bokning
     this.setState({
-      state_valdBokning: evt, state_bokningsId: evt.t_id,
+      //state_valdBokning: evt,
+      state_valdBokning: t_boking, 
+      state_bokningsId: evt.t_id,
       tidtim: t_tidarray[0],
-      tidmin: t_tidarray[1]
+      tidmin: t_tidarray[1],
+      pris: t_boking.t_price
     });
     //this.setState({ tidmin: evt.target.value }
 
 }//end of valdBokingEvt(evt)----------------------------------------------------
 
-  //GAMMAL INPUT: value={this.state.valtDatum.toLocaleDateString()}
-  
   //render()-------------------------------------------------------------------------------------------------
   render () {
        
@@ -389,8 +363,6 @@ Initate LocalStorage
             InternetBokning <input tabIndex="7" type="checkbox" id="b_internetboking" />
           </div>
 
-
-
           <hr/>
           <h3>Kund</h3>
 
@@ -413,7 +385,6 @@ Initate LocalStorage
           
            <BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar} / >
           
-
       </div>
     )
 

@@ -53,7 +53,7 @@ render () {
     //Skriver ut tabell med bokmingar
     let t_datatable = bokingsarray.map( (bokingobject) => {
       
-      let bokning = new Bokning(bokingobject.t_id , bokingobject.t_time, bokingobject.t_date, bokingobject.t_name, bokingobject.t_email,  bokingobject.t_phone, bokingobject.t_assistent, bokingobject.t_treatment, bokingobject.t_inetboking, bokingobject.t_babs);
+      let bokning = new Bokning(bokingobject.t_id , bokingobject.t_time, bokingobject.t_date, bokingobject.t_name, bokingobject.t_email,  bokingobject.t_phone, bokingobject.t_assistent, bokingobject.t_treatment, bokingobject.t_inetboking, bokingobject.t_babs, bokingobject.t_price);
 
       return (
         <tr className="bordertable" id={bokingobject.t_id}  key={bokingobject.t_id}>

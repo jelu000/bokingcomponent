@@ -1,5 +1,4 @@
 import React from 'react'
-import { useDebugValue } from 'react';
 //import PropTypes from 'prop-types'
 import Bokning from "./Bokning";
 import BokingTableButton from "./BokingTableButton";

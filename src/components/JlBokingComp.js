@@ -12,7 +12,6 @@ import SweCalenderLang from "./SweCalenderLang";
 import ChoseAssistent from "./ChoseAssistent";
 import Bokning from "./Bokning";
 import BokingTable from "./BokingTable";
-//import DbBokingTest from "./DbBokingTest";
 import LocalStorageHandler from './LocalStorageHandler';
 
 
@@ -36,7 +35,8 @@ class JlBokingComp extends React.Component {
       tidmin: '00',
 
       //För bokning - biträde
-      assistents: ["Jens"],
+      assistents: ["Jens", "Monica"],
+      state_vald_assistent: "",
       //För bokning - Behandling
       behandlingar: [],
       pris: "0",
@@ -228,7 +228,9 @@ Initate LocalStorage
   }//end of clickAvbokaEvt()----------------------------------------------------------------------
 
   //handleClickTim--------------------------------------------------------------------------------
-  handleClickTim = (evt) => { this.setState({ tidtim: evt.target.value }) }
+  handleClickTim = (evt) => { this.setState({ tidtim: evt.target.value, state_bokningskoll: "" }) }
+  //en of handleClickTim--------------------------------------------------------------------------
+  //selectTim()--------------------------------------------------------------------------------
   selectTim(){
     let tim_array = ["8","9","10","11","12","13","14","15","16","17","18"];
     return (
@@ -242,7 +244,9 @@ Initate LocalStorage
   }//end of handleClickTim----------------------------------------------------------------
 
   //handleClickMin-------------------------------------------------------------------------------
-  handleClickMin = (evt) => { this.setState({ tidmin: evt.target.value }) }
+  handleClickMin = (evt) => { this.setState({ tidmin: evt.target.value, state_bokningskoll: "" }) }
+  //end of handleCickMin---------------------------------------------------------------
+  //selectMin()--------------------------------------------------------------------------
   selectMin(){ 
     let min_array = ["00","15","30","45"];
     return (
@@ -253,7 +257,8 @@ Initate LocalStorage
 
       </select>
     );
-  }//end of handleCickMin---------------------------------------------------------------
+    
+  }//end of selectMin()---------------------------------------------------------------
 
   //editPrice()--------------------------------------------------------------------------
   editPrice = (e) => {
@@ -289,7 +294,15 @@ Initate LocalStorage
       </select>
     );
   }//end of selectTreatment()----------------------------------------------------------------------
-
+//handleAssistentClick--------------------------------------------------------------------------
+handleAssistentClick = (evt) => {
+  //console.log(`handleAssistentClick() ${evt.target.value}`);
+  this.setState({
+    state_vald_assistent: evt.target.value,
+    state_bokningskoll: ""
+  })
+}
+//end of handleAssistentClick-----------------------------------------------------------------------
   /* 
   valdBokingEvt(evt)
   In: callBack event from BokingTableButton that returns a Bokning object - used in BokingTableButton
@@ -336,7 +349,7 @@ Initate LocalStorage
     
     return (
       <div className="MainBokingDiv">
-        <h1>Bokningar</h1>
+        <h1 className="h1_header">Bokningar</h1>
 
 
           <SweCalenderLang id="swekalender" valtdatum={this.state.valtDatum} onDayClickEvent={this.clickDagEvent} onMonthChangeEvent={this.clickMonthChange}/>
@@ -346,7 +359,7 @@ Initate LocalStorage
           <div className="innerdivs">Tid {this.selectTim()}:{this.selectMin()}</div>
 
           <div className="innerdivs">
-            <ChoseAssistent assisarray={this.state.assistents} />
+            <ChoseAssistent assisarray={this.state.assistents} handleAssistentClick={this.handleAssistentClick} />
           </div>
 
           <div className="innerdivs">

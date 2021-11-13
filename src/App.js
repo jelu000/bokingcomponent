@@ -1,20 +1,28 @@
-
 import './App.css';
 import JlBokingComp from "./components/JlBokingComp";
-import Menybar from './components/huvudmeny/Menybar';
-import Menyitem from './components/huvudmeny/Menyitem';
+import Navbar from './components/Navbar/Navbar';
+import Dagsavslut from './components/dagsavslut/Dagsavslut';
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
 
 function App() {
   return (
     <div className="App">
       
-      <Menybar>
-        <Menyitem text="Bokningar" />
-        <Menyitem text="Biträden" />
-      </Menybar>
+      <BrowserRouter>
+      <Navbar />
+           
+      <Routes>
+        <Route path="/" element={<JlBokingComp />} exact />
+        <Route path="/dagsavslut" element={<Dagsavslut />} exact />
+      </Routes>
+    
+    </BrowserRouter>
       
-      <p>Detta är början på ett bokningsprogram för testning.</p>
-      <JlBokingComp />
+     
+      
     </div>
   );
 }

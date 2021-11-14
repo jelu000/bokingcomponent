@@ -24,7 +24,7 @@ class JlBokingComp extends React.Component {
     //let today_date = today_date1.toLocaleDateString();
     let today_date = new Date();
     //today_date = today_date.toLocaleDateString();
-    console.log(today_date);
+    //console.log(today_date);
 
     this.state = {
       //För Kalender
@@ -57,7 +57,7 @@ class JlBokingComp extends React.Component {
 
     };
 
-    console.log(`valtDatumTextfelt: ${this.state.valtDatumTextfelt}`);
+    //console.log(`valtDatumTextfelt: ${this.state.valtDatumTextfelt}`);
 
     this.clickDagEvent = this.clickDagEvent.bind(this);
     this.clickBoka = this.clickBoka.bind(this);
@@ -124,13 +124,14 @@ Initate LocalStorage
     await this.setState({
       valtDatum: dag,
       valtDatumTextfelt: t_dag,
-      state_vald_dag_arraybokningar: dagensbokningar
+      state_vald_dag_arraybokningar: dagensbokningar,
+      state_bokningskoll: ""
      });
      
      this.clearTextInputs();
      //console.log(`Kill: ${this.state.valtDatum} : ${this.state.valtDatumTextfelt}`)
-     this.setState({state_bokningskoll: ""});
-     console.log(`clickDagEvent 119 state_bokningskoll ${this.state.state_bokningskoll}`);
+     //this.setState({state_bokningskoll: ""});
+     //console.log(`clickDagEvent 119 state_bokningskoll ${this.state.state_bokningskoll}`);
   }//end of clickDagEvent()--------------------------------------------------------------------
 
   //clickMonthChange()-----------------------------------------------------------------------------

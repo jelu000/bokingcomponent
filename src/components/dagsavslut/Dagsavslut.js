@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import 'react-day-picker/lib/style.css';
 import SweCalenderLang from "../SweCalenderLang";
-
+import Utskrift from './Utskrift';
+import DagensKunderTable from './DagensKunderTable';
 
 import './Dagsavslut.css';
 
@@ -72,13 +73,19 @@ Initate LocalStorage
   
 
     render() {
+
+        const t_dagenskundertable = DagensKunderTable();
+
         return (
             <div className="MainBokingDiv">
             <h1 className="h1_header">Dagsavslut</h1>
 
             <SweCalenderLang id="swekalender" valtdatum={this.state.valtDatum} onDayClickEvent={this.clickDagEvent} onMonthChangeEvent={this.clickMonthChange}/>
 
+            { t_dagenskundertable }
 
+            <a href="./utskrift" target="_blank">Utskrif format</a>
+            
             </div>
         )
     }

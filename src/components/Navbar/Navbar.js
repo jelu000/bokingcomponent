@@ -19,6 +19,9 @@ const Navbar = () => {
                 <Link to="/dagsavslut" className="about">
                     <li>Dagsavslut</li>
                 </Link>
+                <Link to="/om" className="about">
+                    <li>Om appen</li>
+                </Link>
 
             </ul>
             <button onClick={() => setIsMobile(!isMobile)} className="mobile-menu-icon">

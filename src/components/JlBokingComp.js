@@ -28,7 +28,7 @@ class JlBokingComp extends React.Component {
 
     this.state = {
       //För Kalender
-      valtDatum: today_date, //ANVÄNDS EJ: Innehåller Datum strig från kalender ex: Tue Oct 26 2021 12:00:00 GMT+0200 (centraleuropeisk sommartid)
+      valtDatum: today_date, //Sätter färg för valt datum i calender Format: Tue Oct 26 2021 12:00:00 GMT+0200 (centraleuropeisk sommartid)
       valtDatumTextfelt: today_date.toLocaleDateString(), //Datumtextfält
       locale: 'swe',
       tidtim: '8',

@@ -1,0 +1,37 @@
+.DayPicker{
+  color: white;
+  /*background-color: #3366BB;*/
+  background-color:  darkgreen;
+  border-radius: 10px;
+  display: flex;
+  width: 380px;
+  font-size: large;
+  
+  
+}
+
+/*.day_today {
+  color: orange;
+  background-color: palevioletred;
+}*/
+
+.DayPicker-Day--today {
+  color: red;
+}
+.DayPicker-NavButton:hover {
+  opacity: 0.9;
+}
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  position: relative;
+
+  /*background-color: #4A90E2;*/
+  background-color: green;
+  /*color: #F0F8FF;*/
+  color: orange;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+  /*background-color: #51A0FA;*/
+  background-color: lightgreen;
+  
+}

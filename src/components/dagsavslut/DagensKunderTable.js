@@ -1,10 +1,38 @@
 import React from 'react'
 
-export default function DagensKunderTable() {
+export default function DagensKunderTable(props) {
 
-    let t_datatable = () => {
+    //let t_datatable = () => {}
+
+      
+    
+    //Sorterar
+      //let bokingsarray = bokingsarray_prop.sort( compareTime );
+      let bokingsarray = props.bokingsarray_prop;
+
+      //console.log("Sorterad!: " + JSON.stringify(bokingsarray));
+      //onClick={this.bokingTableRowClick}
+    
+      //Skriver ut tabell med bokmingar
+      /*let t_datatable = bokingsarray.map( (bokingobject) => {
         
-    }
+        let bokning = new Bokning(bokingobject.t_id , bokingobject.t_time, bokingobject.t_date, bokingobject.t_name, bokingobject.t_email,  bokingobject.t_phone, bokingobject.t_assistent, bokingobject.t_treatment, bokingobject.t_inetboking, bokingobject.t_babs, bokingobject.t_price);
+
+        return (
+          <tr className="bordertable" id={}  key={}>
+            <td className="bordertable" data-title="t_tid">{}</td>
+            <td className="bordertable" data-title="t_assistent">{}</td>
+            <td className="bordertable" data-title="t_kund">{}</td>
+            <td className="bordertable" data-title="t_tel">{}</td>
+            <td className="bordertable" data-title="t_behandling">{}</td>
+            <td className="bordertable" data-title="t_price">{}</td>
+            <td className="bordertable" data-title="t_babs">{}</td>
+            <td className="bordertable" value={}>  </td>
+          </tr>
+        )
+      })*/
+
+
 
     return (
         <div>

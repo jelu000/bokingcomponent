@@ -2,7 +2,7 @@
 //fick instalationfel med bara $ npm install react-day-picker --save
 //https://stackoverflow.com/questions/64718633/unable-to-resolve-dependency-tree-reactjs
 //http://react-day-picker.js.org/docs/getting-started
-//http://react-day-picker.js.org/docs/getting-started
+//http://react-day-picker.js.org/examples/selected-state
 //package.json "homepage": "/bokingcomponent",
 import React from 'react';
 import PropTypes from 'prop-types';

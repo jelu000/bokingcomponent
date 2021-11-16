@@ -3,6 +3,7 @@ import 'react-day-picker/lib/style.css';
 import SweCalenderLang from "../SweCalenderLang";
 import Utskrift from './Utskrift';
 import DagensKunderTable from './DagensKunderTable';
+import LocalStorageHandler from '../LocalStorageHandler';
 
 import './Dagsavslut.css';
 
@@ -20,7 +21,9 @@ export default class Dagsavslut extends Component {
             locale: 'swe',
             tidtim: '8',
             tidmin: '00',
-            dagsavslut: "Dagsavslut"
+            dagsavslut: "Dagsavslut",
+            //Boknings array för vald dag
+            bokingsarray: []
         }
 
         this.clickDagEvent = this.clickDagEvent.bind(this);
@@ -32,13 +35,15 @@ Initate LocalStorage
 */
     componentDidMount(){
         
-        //let localStorageDB = new LocalStorageHandler();
-        //let t_array_behandlingar = localStorageDB.getTreatments();
-        //this.setState({
-        //state_vald_dag_arraybokningar: localStorageDB.getBokingsDay(this.state.valtDatumTextfelt),
+        let localStorageDB = new LocalStorageHandler();
+        
+        //console.log(`Dagsavslut componentDidMount: ${ }`);
+        
+        this.setState({
+        //bokingsarray: localStorageDB.getBokingsDay(this.state.valtDatumTextfelt),
         //behandlingar: t_array_behandlingar,
         //pris: t_array_behandlingar[0].t_price
-        //});
+        });
         
     }//end of componentDidMount-------------------------------------------------------------------------
 
@@ -74,7 +79,7 @@ Initate LocalStorage
 
     render() {
 
-        const t_dagenskundertable = DagensKunderTable();
+        //const t_dagenskundertable = DagensKunderTable();
 
         return (
             <div className="MainBokingDiv">
@@ -82,7 +87,8 @@ Initate LocalStorage
 
             <SweCalenderLang id="swekalender" valtdatum={this.state.valtDatum} onDayClickEvent={this.clickDagEvent} onMonthChangeEvent={this.clickMonthChange}/>
 
-            { t_dagenskundertable }
+            { /*t_dagenskundertable*/ }
+            <DagensKunderTable  bokingsarray_prop={ this.state.bokingsarray } />
 
             <a href="./utskrift" target="_blank">Utskrif format</a>
             

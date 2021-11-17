@@ -3,6 +3,7 @@ import 'react-day-picker/lib/style.css';
 import SweCalenderLang from "../SweCalenderLang";
 import Utskrift from './Utskrift';
 import DagensKunderTable from './DagensKunderTable';
+import SummeringTable from './SummeringTable';
 import LocalStorageHandler from '../LocalStorageHandler';
 import '../SweCalenderLang.css';
 
@@ -50,6 +51,9 @@ Initate LocalStorage
         
     }//end of componentDidMount-------------------------------------------------------------------------
 
+
+
+
     //clickDagEvent() - för calender-----------------------------------------------------------------------
     async clickDagEvent(dag){
         
@@ -87,15 +91,19 @@ Initate LocalStorage
 
         return (
             <div className="MainBokingDiv">
-            <h1 className="h1_header">Dagsavslut</h1>
+            <h1 className="h1_header">Dagrapport {this.state.selectedDay}</h1>
 
             <SweCalenderLang id="swekalender" valtdatum={this.state.valtDatum} onDayClickEvent={this.clickDagEvent} onMonthChangeEvent={this.clickMonthChange}/>
 
-            <p>{this.state.selectedDay}</p>
+            
 
             { /*t_dagenskundertable*/ }
+            <hr/>
+            <h3>Bokningar </h3>
             <DagensKunderTable  bokingsarray_prop={ this.state.bokingsarray } />
-
+            <h3>Summa Biträde </h3>
+            <SummeringTable bokingsarray_prop={ this.state.bokingsarray } />
+            <h3>Försäljning </h3>
             <a href="./utskrift" target="_blank">Utskrif format</a>
             
             </div>

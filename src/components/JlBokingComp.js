@@ -176,7 +176,7 @@ Initate LocalStorage
         let localStorageDB = new LocalStorageHandler();
         let t_dagarray_bokningar = localStorageDB.addBoking(bokning);
         
-        //console.log(`addBoking: ${ JSON.stringify(t_dagarray_bokningar)}`);
+        console.log(`addBoking: ${ JSON.stringify(t_dagarray_bokningar)}`);
         
         //sätter state och uppdaterar grafiskt användar gränssnitt för de komponenter som påverkas av detta
         await this.setState({

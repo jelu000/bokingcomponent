@@ -17,16 +17,21 @@ export default function DagensKunderTable(props) {
       let t_datatable = bokingsarray.map( (bokingobject, i) => {
         
         //let bokning = new Bokning(bokingobject.t_id , bokingobject.t_time, bokingobject.t_date, bokingobject.t_name, bokingobject.t_email,  bokingobject.t_phone, bokingobject.t_assistent, bokingobject.t_treatment, bokingobject.t_inetboking, bokingobject.t_babs, bokingobject.t_price);
-
+        let t_babs = "";
+         if (bokingobject.t_babs)
+           t_babs='Ja';        
+         else
+          t_babs = 'Nej';
+        
         return (
           <tr className="bordertable" id={i}  key={i}>
-            <td className="bordertable" data-title="t_tid">{bokingobject.t_id}</td>
+            <td className="bordertable" data-title="t_tid">{bokingobject.t_time}</td>
             <td className="bordertable" data-title="t_assistent">{bokingobject.t_assistent}</td>
             <td className="bordertable" data-title="t_kund">{bokingobject.t_name}</td>
             <td className="bordertable" data-title="t_tel">{bokingobject.t_phone}</td>
             <td className="bordertable" data-title="t_behandling">{bokingobject.t_treatment}</td>
             <td className="bordertable" data-title="t_price">{bokingobject.t_price}</td>
-            <td className="bordertable" data-title="t_babs">{bokingobject.t_babs}</td>
+            <td className="bordertable" data-title="t_babs">{t_babs}</td>
             
           </tr>
         )

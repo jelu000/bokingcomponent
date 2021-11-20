@@ -9,97 +9,105 @@ function SummeringTable(props) {
     let assistents_name_array = bokkningsarray.map( (bokingobj) => {return bokingobj.t_assistent}  );
     //plockar ut unikt namn, dvs dubbeletter för biträden från arrayen med namn på biträden
     let uniquenames = [...new Set(assistents_name_array)];
-    //console.log(`typeof: ${bokkningsarray[1].t_babs}`);
-
-    let uniquenames_objects = [...new Set(bokkningsarray.t_assistent)];
     
-    
-    function createAssisIncomObj(t_bokning){
         
-        let assistent = t_bokning.t_assistent;
-        let pris = parseInt(t_bokning.t_price);
-        let babs_bool = t_bokning.t_babs;
-        let kassa = 0;
-        let babs_inbet = 0;
+    let uppdelad_namn_array = [];
 
-        
-
-        if (babs_bool){
-            babs_inbet = pris;
-        }
-        else {
-            kassa = pris;
-        }
-
-        return { 
-            assistent: assistent,
-            total: pris,
-            babs_bool: babs_bool,
-            kassa: kassa,
-            babs_inbet: babs_inbet
-        }
-    }
-
-    //const arr = uniquenames.filter( (assisname)  => assisname === "Rebels");
-
-    let arr_tot_sum = bokkningsarray.reduce( (acc, b_obj) => { 
-        return acc + parseInt(b_obj.t_price)
-    }, 0);
+//forEach()To greate array for unic Assistent-------------------------------------------------------------------------
+    uniquenames.forEach( (t_name, i) => {
+        console.log(`for: ${i}  : ${t_name}`);
     
-    let arr = uniquenames.map( (assisname, i) => {
-
-    } );
-    
-    //let totalAssisIncome = bokkningsarray.reduce(function (boking, pris) {
-        //return acc + score;
-      //}, 0);
-
-
-    function getInkomstDag(){
-
-    }
-
-    let twoDsummaArray = [];
-
-    uniquenames.forEach( (aname) =>{
-console.log(`forEach`);
+            
         let sammanlagt_pris = 0;
         let sammanlagt_babs = 0;
         let sammanlagt_kontant = 0;
-        
-        let bokkningsarray_lengt = bokkningsarray.length;
+        //let sammandragarray = [];
+                    
+        let t_object= new Object;
 
-        let t_array = bokkningsarray.map( (bok_obj, i) =>{
-            
-            if (aname === bok_obj.t_assistent) {
-                sammanlagt_pris = sammanlagt_pris + parseInt(bok_obj.t_price);
+        bokkningsarray.forEach( (bok_obj, i) => {
 
-                if (bok_obj.t_babs) {
-                    sammanlagt_babs = sammanlagt_babs + parseInt(bok_obj.t_price);
-                }
-                else {
-                    sammanlagt_kontant = sammanlagt_kontant + parseInt(bok_obj.t_price);
-                }
             
-            
+        if (bok_obj.t_assistent === t_name){
+
+            sammanlagt_pris = sammanlagt_pris + parseInt(bok_obj.t_price);
+
+            if (bok_obj.t_babs) {
+                sammanlagt_babs = sammanlagt_babs + parseInt(bok_obj.t_price);
+            }
+            else {
+                sammanlagt_kontant = sammanlagt_kontant + parseInt(bok_obj.t_price);
             }
 
-            if (i === bokkningsarray_lengt-1){
-                return {
-                    assis: aname,
-                    sammanlagt_pris: sammanlagt_pris,
-                    sammanlagt_babs: sammanlagt_babs,
-                    sammanlagt_kontant: sammanlagt_kontant
-                }
-            }
-        } );
-
-        twoDsummaArray.push(t_array);
-    } );
+            t_object = {
+                assistent: t_name,
+                sammanlagt_pris: sammanlagt_pris,
+                sammanlagt_babs: sammanlagt_babs,
+                sammanlagt_kontant: sammanlagt_kontant
+            }                    
+                //console.log(`forEach name: ${t_name}`)
+        }//en of outer if
     
+    });//End of inner forEach()
+
+        //sammandragarray.push(t_object);DE HÄR LA BARA EN ARRAY I ARRAYEN ISTÄLLET FÖR ETT ASSISTENTOBJECT
+        //uppdelad_namn_array.push(sammandragarray);
+
+        uppdelad_namn_array.push(t_object);
+
+    });//End of outer forEach();------------------------------------------------------------------------------------
+
+    //console.log(`uppdelad_namn_array: ${ JSON.stringify(uppdelad_namn_array)} length: ${uppdelad_namn_array.length} `);
 
 
-console.log(`filter_array_assis ${JSON.stringify(twoDsummaArray)}`)
+    //createLastSummaRow()---------------------------------------------------------------------------------------------------
+    function createLastSummaRow(){
+    
+        let kassa = 0, babs = 0, totalt = 0;
+
+        uppdelad_namn_array.forEach( (rowobject, i) => {
+            
+            
+            totalt += rowobject.sammanlagt_pris;
+            kassa +=  rowobject.sammanlagt_kontant;
+            babs += rowobject.sammanlagt_babs;
+
+       
+        });
+        console.log(`createRow`);
+        let t_object = {
+            assistent: "SUMMA",
+            sammanlagt_pris: totalt,
+            sammanlagt_babs: babs,
+            sammanlagt_kontant: kassa
+        }
+        
+        return t_object;
+    }//end of createLastSummaRow() ------------------------------------------------------------
+
+    
+    let summa_row_to_add =  createLastSummaRow();   
+    //console.log(`summaArray ${JSON.stringify(summa_row_to_add)}`);
+    let hel_tabell_array = uppdelad_namn_array;
+    hel_tabell_array.push(summa_row_to_add);
+
+
+//tInnerdatatable-----------------------------------------------------------------------
+    let tInnerdatatable = hel_tabell_array.map( (bokingobject, i) => {
+                
+        return (
+        <tr className="bordertable" id={i}  key={i}>
+            <td className="bordertable" data-title="t_assistent">{bokingobject.assistent}</td>
+            <td className="bordertable" data-title="t_kassa">{bokingobject.sammanlagt_kontant}</td>
+            <td className="bordertable" data-title="t_babs">{bokingobject.sammanlagt_babs}</td>
+            <td className="bordertable" data-title="t_totalt">{bokingobject.sammanlagt_pris}</td>
+        
+        </tr>
+        )
+    })//end of t_tInnerdatatable
+   
+ //---------------------------------------------------------------------------------------
+    
 
     return (
         <div>
@@ -114,7 +122,7 @@ console.log(`filter_array_assis ${JSON.stringify(twoDsummaArray)}`)
                     </tr>
                 </thead>
                 <tbody>
-                
+                    { tInnerdatatable }
                 </tbody>
             </table>
         </div>

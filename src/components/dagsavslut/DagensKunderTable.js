@@ -10,6 +10,54 @@ export default function DagensKunderTable(props) {
       //let bokingsarray = bokingsarray_prop.sort( compareTime );
       let bokingsarray = props.bokingsarray_prop;
 
+      
+
+      //Sorterar bokningar på tid
+      function compareTime(boking_a, boking_b){
+
+        let t_array_time1 = boking_a.t_time.split(":");
+        let bokingtime1 = new Date().setHours(Number(t_array_time1[0]), t_array_time1[1], 0, 0);
+
+        let t_array_time2 = boking_b.t_time.split(":");
+        let bokingtime2 = new Date().setHours(Number(t_array_time2[0]), t_array_time2[1], 0, 0);
+
+        if (bokingtime1 < bokingtime2){
+          //console.log(boking_a.t_time + "<" + boking_b.t_time);
+          return -1;
+        }
+
+        if (bokingtime1 > bokingtime2){
+          //console.log(">");
+          return 1;
+        }
+        return 0;
+      }
+
+      //Sorterar
+      bokingsarray.sort( compareTime );
+
+      //Sorterar på assistentnamn
+
+      bokingsarray.sort( (element_a, element_b) => {
+        let ea = element_a.t_assistent.toLowerCase();
+        let eb = element_b.t_assistent.toLowerCase();
+
+
+        if (ea < eb){
+          return -1;
+        }
+        if (ea > eb){
+          return 1;
+        }
+        return 0;        
+      });
+
+
+      
+
+      //console.log(`---------------------------------------`);
+      //console.log(`Sort2: ${JSON.stringify(bokingsarray)}`);
+
       //console.log("Sorterad!: " + JSON.stringify(bokingsarray));
       //onClick={this.bokingTableRowClick}
     

@@ -69,7 +69,7 @@ Initate LocalStorage
         
         });
         
-        console.log(`Dagsavslut clickDagEvent(): ${t_dag} `)
+        //console.log(`Dagsavslut clickDagEvent(): ${t_dag} `)
         
         
     }//end of clickDagEvent()--------------------------------------------------------------------
@@ -99,7 +99,7 @@ Initate LocalStorage
 
             { /*t_dagenskundertable*/ }
             <hr/>
-            <h3>Bokningar </h3>
+            <h3>Dagrapport och Bokningar {this.state.selectedDay} </h3>
             <DagensKunderTable  bokingsarray_prop={ this.state.bokingsarray } />
             <h3>Summa Biträde </h3>
             <SummeringTable bokingsarray_prop={ this.state.bokingsarray } />

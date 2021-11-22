@@ -15,7 +15,7 @@ function SummeringTable(props) {
 
 //forEach()To greate array for unic Assistent-------------------------------------------------------------------------
     uniquenames.forEach( (t_name, i) => {
-        console.log(`for: ${i}  : ${t_name}`);
+        //console.log(`for: ${i}  : ${t_name}`);
     
             
         let sammanlagt_pris = 0;
@@ -23,7 +23,7 @@ function SummeringTable(props) {
         let sammanlagt_kontant = 0;
         //let sammandragarray = [];
                     
-        let t_object= new Object;
+        let t_object= {};
 
         bokkningsarray.forEach( (bok_obj, i) => {
 
@@ -74,7 +74,7 @@ function SummeringTable(props) {
 
        
         });
-        console.log(`createRow`);
+        //console.log(`createRow`);
         let t_object = {
             assistent: "SUMMA",
             sammanlagt_pris: totalt,

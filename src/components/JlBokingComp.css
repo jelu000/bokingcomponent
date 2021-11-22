@@ -42,6 +42,11 @@ hr{
   margin-top: 40px;
 }
 
+thead{
+  background-color: darkgreen;
+  color: white;
+}
+
 #idpris{
 
 }

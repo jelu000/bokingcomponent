@@ -3,3 +3,22 @@
     /*margin: 20px;*/
     display: block;
   }
+
+  @media print {
+
+    body * {
+      visibility: hidden;
+    }
+    #utskriftformat, #utskriftformat * {
+      visibility: visible;
+    }
+    #utskriftformat {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: white;
+      color: black;
+    }
+    
+
+  }

@@ -1,5 +1,5 @@
 import React from 'react'
-import './Utskrift.css'
+//import './Utskrift.css'
 
 export default function Utskrift() {
     return (

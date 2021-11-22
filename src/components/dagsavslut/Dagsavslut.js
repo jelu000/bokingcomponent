@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'react-day-picker/lib/style.css';
 import SweCalenderLang from "../SweCalenderLang";
-import Utskrift from './Utskrift';
+
 import DagensKunderTable from './DagensKunderTable';
 import SummeringTable from './SummeringTable';
 import LocalStorageHandler from '../LocalStorageHandler';
@@ -99,13 +99,15 @@ Initate LocalStorage
 
             { /*t_dagenskundertable*/ }
             <hr/>
-            <h3>Dagrapport och Bokningar {this.state.selectedDay} </h3>
-            <DagensKunderTable  bokingsarray_prop={ this.state.bokingsarray } />
-            <h3>Summa Biträde </h3>
-            <SummeringTable bokingsarray_prop={ this.state.bokingsarray } />
-            <h3>Försäljning </h3>
-            <a href="./utskrift" target="_blank">Utskrif format</a>
-            
+                <div className="utskriftformat" id="utskriftformat">
+                    <h3>Dagrapport och Bokningar {this.state.selectedDay} </h3>
+                    <DagensKunderTable  bokingsarray_prop={ this.state.bokingsarray } />
+                    <h3>Summa Biträde </h3>
+                    <SummeringTable bokingsarray_prop={ this.state.bokingsarray } />
+                    <h3>Försäljning </h3>
+                    
+                </div>
+                <a href="./utskrift" target="_blank">Utskrif format</a>
             </div>
         )
     }

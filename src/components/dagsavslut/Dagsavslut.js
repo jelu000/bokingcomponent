@@ -25,7 +25,14 @@ export default class Dagsavslut extends Component {
             tidmin: '00',
             dagsavslut: "Dagsavslut",
             //Boknings array för vald dag
-            bokingsarray: []
+            bokingsarray: [],
+            tot_int_arbete: 0,
+            tot_int_babs: 0,
+            //För summeringstabell skicka SummeringTable component
+            summa_table_array: [],
+            summa_lastrow_obj: {},
+            //unika namn för assistent och vald dag
+            uppdelad_namn_array: []
         }
 
         this.clickDagEvent = this.clickDagEvent.bind(this);
@@ -43,15 +50,37 @@ Initate LocalStorage
         //console.log(`Dagsavslut componentDidMount: ${ this.state.selectedDay }`);
         let t_array_bokningar = localStorageDB.getBokingsDay(this.state.selectedDay);
         
+        //skapar array med unika namnnför assistenter
+        //let assistents_name_array = t_array_bokningar.map( (bokingobj) => {return bokingobj.t_assistent}  );
+        //let t_unique_assisarray = [...new Set(assistents_name_array)];
+        let t_uniq_assisarray = this.skapaArrayUnikaNamnAssitenter(t_array_bokningar); 
+
+        let t_summa_table_array = this.createSummaTableArray(t_uniq_assisarray, t_array_bokningar);
+        //skapar sista summerings rad som object
+        let t_summa_row_object = this.createLastSummaRow(t_summa_table_array);
+        //lägger  till sista raden med summering av intäkter för alla biträden
+        t_summa_table_array.push(t_summa_row_object);
+
         this.setState({
-        bokingsarray: t_array_bokningar
+        bokingsarray: t_array_bokningar,
+        uppdelad_namn_array: t_uniq_assisarray,
+        summa_table_array: t_summa_table_array,
+        summa_lastrow_obj: t_summa_row_object
         //behandlingar: t_array_behandlingar,
         //pris: t_array_behandlingar[0].t_price
         });
         
     }//end of componentDidMount-------------------------------------------------------------------------
 
+    //skapaArrayUnikaNamnAssitenter(t_array)-----------------------------------------------
+    //IN: Vald dag med bokningar som array
+    //OUT: array me endast inika namn på assistenter för vald dag
+    skapaArrayUnikaNamnAssitenter(t_array){
+        let assistents_name_array = t_array.map( (bokingobj) => {return bokingobj.t_assistent}  );
+        let t_unique_assisarray = [...new Set(assistents_name_array)];
 
+        return t_unique_assisarray
+    }//end of skapaArrayUnikaNamnAssitenter-------------------------------------------------
 
 
     //clickDagEvent() - för calender-----------------------------------------------------------------------
@@ -61,15 +90,29 @@ Initate LocalStorage
         let t_dag = dag.toLocaleDateString();
         let localStorageDB = await new LocalStorageHandler();
         let t_array_bokningar = await localStorageDB.getBokingsDay(t_dag);
- 
+        
+        //let assistents_name_array = t_array_bokningar.map( (bokingobj) => {return bokingobj.t_assistent}  );
+        //let t_unique_assisarray = [...new Set(assistents_name_array)];
+        let t_uniq_assisarray = this.skapaArrayUnikaNamnAssitenter(t_array_bokningar);
+        
+        let t_summa_table_array = this.createSummaTableArray(t_uniq_assisarray, t_array_bokningar);
+        //skapar sista summerings rad som object
+        let t_summa_row_object = this.createLastSummaRow(t_summa_table_array);
+        //lägger  till sista raden med summering av intäkter för alla biträden
+        t_summa_table_array.push(t_summa_row_object);
+
         await this.setState({
         valtDatum: dag,
         selectedDay: t_dag,
-        bokingsarray: t_array_bokningar
+        bokingsarray: t_array_bokningar,
+        uppdelad_namn_array: t_uniq_assisarray,
+        summa_table_array: t_summa_table_array,
+        summa_lastrow_obj: t_summa_row_object
         
         });
         
         //console.log(`Dagsavslut clickDagEvent(): ${t_dag} `)
+        console.log(`state.summa_table_array ${ JSON.stringify(this.state.summa_table_array)}`);
         
         
     }//end of clickDagEvent()--------------------------------------------------------------------
@@ -83,8 +126,99 @@ Initate LocalStorage
         
 
     }//end of clickMonthChange()-------------------------------------------------------------
-  
 
+    //createSummaTableArray----------------------------------------------------------
+    createSummaTableArray(uniquenames, bokkningsarray){
+
+    let t_uppdelad_namn_array = [];
+
+    //forEach()To greate array for unic Assistent-------------------------------------------------------------------------
+    uniquenames.forEach( (t_name, i) => {
+        //console.log(`for: ${i}  : ${t_name}`);
+    
+            
+        let sammanlagt_pris = 0;
+        let sammanlagt_babs = 0;
+        let sammanlagt_kontant = 0;
+        //let sammandragarray = [];
+                    
+        let t_object= {};
+
+        bokkningsarray.forEach( (bok_obj, i) => {
+
+            
+        if (bok_obj.t_assistent === t_name){
+
+            sammanlagt_pris = sammanlagt_pris + parseInt(bok_obj.t_price);
+
+            if (bok_obj.t_babs) {
+                sammanlagt_babs = sammanlagt_babs + parseInt(bok_obj.t_price);
+            }
+            else {
+                sammanlagt_kontant = sammanlagt_kontant + parseInt(bok_obj.t_price);
+            }
+
+            t_object = {
+                assistent: t_name,
+                sammanlagt_pris: sammanlagt_pris,
+                sammanlagt_babs: sammanlagt_babs,
+                sammanlagt_kontant: sammanlagt_kontant
+            }                    
+                //console.log(`forEach name: ${t_name}`)
+        }//en of outer if
+    
+    });//End of inner forEach()
+
+        //sammandragarray.push(t_object);DE HÄR LA BARA EN ARRAY I ARRAYEN ISTÄLLET FÖR ETT ASSISTENTOBJECT
+        //uppdelad_namn_array.push(sammandragarray);
+
+        t_uppdelad_namn_array.push(t_object);
+
+    });//End of outer forEach();------------------------------------------------------------------------------------
+
+    
+    //let t_rowobject = this.createLastSummaRow(t_uppdelad_namn_array)
+    //t_uppdelad_namn_array.push(t_rowobject);
+    //console.log(`createSummaTableArray: ${ JSON.stringify(t_uppdelad_namn_array)} length: ${t_uppdelad_namn_array.length} `);
+    
+    return t_uppdelad_namn_array;
+    }
+    // end of createSummaTableArray.....................................................
+
+    //createLastSummaRow() Skapar sista raden i summerings tabellen för assistenter där allas intäkter summeras------------------------------------------------
+    //IN: array med tablerow intäkt för varje assistent
+    //OUT: rad Objekt med sista raden där alla assistenter intäkter summeras
+    createLastSummaRow(uppdelad_namn_array){
+    
+        let kassa = 0, babs = 0, totalt = 0;
+
+        uppdelad_namn_array.forEach( (rowobject, i) => {
+            
+            
+            totalt += rowobject.sammanlagt_pris;
+            kassa +=  rowobject.sammanlagt_kontant;
+            babs += rowobject.sammanlagt_babs;
+
+       
+        });
+        //console.log(`createRow`);
+        let t_object = {
+            assistent: "SUMMA",
+            sammanlagt_pris: totalt,
+            sammanlagt_babs: babs,
+            sammanlagt_kontant: kassa
+        }
+       
+        
+        return t_object;
+    }//end of createLastSummaRow() ------------------------------------------------------------
+    
+    
+    //setStateIntakter ANVÄNDS EJ----------------------
+    printOut = () => {
+        window.print();
+    }
+    //end of setStateIntakter-----------------------------------------
     render() {
 
         //const t_dagenskundertable = DagensKunderTable();
@@ -103,11 +237,13 @@ Initate LocalStorage
                     <h3>Dagrapport och Bokningar {this.state.selectedDay} </h3>
                     <DagensKunderTable  bokingsarray_prop={ this.state.bokingsarray } />
                     <h3>Summa Biträde </h3>
-                    <SummeringTable bokingsarray_prop={ this.state.bokingsarray } />
+                    <SummeringTable summabokingtable={this.state.summa_table_array} />
                     <h3>Försäljning </h3>
+                    <h3>Bokföring </h3>
+                    <p>Arbete: {this.state.summa_lastrow_obj.sammanlagt_pris}kr</p>
                     
                 </div>
-                <a href="./utskrift" target="_blank">Utskrif format</a>
+                <button onClick={this.printOut}>Skriv ut</button>
             </div>
         )
     }

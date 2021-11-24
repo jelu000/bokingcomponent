@@ -1,27 +1,41 @@
-import React from 'react'
+//import React from 'react'
+import React from 'react';
 
 function SummeringTable(props) {
 
 
-    let bokkningsarray =[];
-    bokkningsarray = props.bokingsarray_prop;
-    //Plockar ut namnet för varje biträde i varje bokning
-    let assistents_name_array = bokkningsarray.map( (bokingobj) => {return bokingobj.t_assistent}  );
-    //plockar ut unikt namn, dvs dubbeletter för biträden från arrayen med namn på biträden
-    let uniquenames = [...new Set(assistents_name_array)];
+     //Använder useState för att lägga till totala inarbetat inkomster rad object
+     //const [object_total_income, setTotalIncomeObject] = useState({});
+
     
-        
-    let uppdelad_namn_array = [];
+    let summabokingtable =[];
+    summabokingtable = props.summabokingtable;
+    
+    //let bokkningsarray =[];
+    //bokkningsarray = props.bokingsarray_prop;
+
+    
+    //Plockar ut namnet för varje biträde i varje bokning
+    //let assistents_name_array = bokkningsarray.map( (bokingobj) => {return bokingobj.t_assistent}  );
+    //plockar ut unikt namn, dvs dubbeletter för biträden från arrayen med namn på biträden
+    //let uniquenames = [...new Set(assistents_name_array)];
+    
+    //för att dela upp array med assistent object baserat på namn så man vet vad varje arbetat in     
+    //let uppdelad_namn_array = [];
+
+    //let summa_row_to_add = {};
+
+   
 
 //forEach()To greate array for unic Assistent-------------------------------------------------------------------------
-    uniquenames.forEach( (t_name, i) => {
+  /*  uniquenames.forEach( (t_name, i) => {
         //console.log(`for: ${i}  : ${t_name}`);
     
             
         let sammanlagt_pris = 0;
         let sammanlagt_babs = 0;
         let sammanlagt_kontant = 0;
-        //let sammandragarray = [];
+        
                     
         let t_object= {};
 
@@ -45,23 +59,23 @@ function SummeringTable(props) {
                 sammanlagt_babs: sammanlagt_babs,
                 sammanlagt_kontant: sammanlagt_kontant
             }                    
-                //console.log(`forEach name: ${t_name}`)
-        }//en of outer if
+                
+        }
     
-    });//End of inner forEach()
+    });
 
-        //sammandragarray.push(t_object);DE HÄR LA BARA EN ARRAY I ARRAYEN ISTÄLLET FÖR ETT ASSISTENTOBJECT
-        //uppdelad_namn_array.push(sammandragarray);
+       
 
         uppdelad_namn_array.push(t_object);
 
-    });//End of outer forEach();------------------------------------------------------------------------------------
+    });*/   
+    //End of outer forEach();------------------------------------------------------------------------------------
 
     //console.log(`uppdelad_namn_array: ${ JSON.stringify(uppdelad_namn_array)} length: ${uppdelad_namn_array.length} `);
 
 
     //createLastSummaRow()---------------------------------------------------------------------------------------------------
-    function createLastSummaRow(){
+    /*function createLastSummaRow(){
     
         let kassa = 0, babs = 0, totalt = 0;
 
@@ -74,27 +88,41 @@ function SummeringTable(props) {
 
        
         });
-        //console.log(`createRow`);
+        
         let t_object = {
             assistent: "SUMMA",
             sammanlagt_pris: totalt,
             sammanlagt_babs: babs,
             sammanlagt_kontant: kassa
         }
+       
         
         return t_object;
-    }//end of createLastSummaRow() ------------------------------------------------------------
+    }*/ 
+    //end of createLastSummaRow() ------------------------------------------------------------
 
     
-    let summa_row_to_add =  createLastSummaRow();   
+    
+    //let summa_row_to_add =  createLastSummaRow();
+    //summa_row_to_add =  createLastSummaRow();
+
+    //lägger till rad object till State
+    //setTotalIncomeObject(summa_row_to_add);   
     //console.log(`summaArray ${JSON.stringify(summa_row_to_add)}`);
-    let hel_tabell_array = uppdelad_namn_array;
-    hel_tabell_array.push(summa_row_to_add);
+    
+    //let hel_tabell_array = uppdelad_namn_array;
+    //hel_tabell_array.push(summa_row_to_add);
+
+    //använder props och lägger till state summa tot_int_arbete och babs tot_int_babs i föräldercomponent Dagsavslut
+    //props.setStateIntakter(summa_row_to_add.sammanlagt_pris, 0);
+    
+// let tInnerdatatable = hel_tabell_array.map( (bokingobject, i) => {
+
 
 
 //tInnerdatatable-----------------------------------------------------------------------
-    let tInnerdatatable = hel_tabell_array.map( (bokingobject, i) => {
-                
+    let tInnerdatatable = summabokingtable.map( (bokingobject, i) => {
+    //let tInnerdatatable = hel_tabell_array.map( (bokingobject, i) => {
         return (
         <tr className="bordertable" id={i}  key={i}>
             <td className="bordertable" data-title="t_assistent">{bokingobject.assistent}</td>
@@ -127,6 +155,9 @@ function SummeringTable(props) {
             </table>
         </div>
     )
+
+
+     
 }
 
 export default SummeringTable

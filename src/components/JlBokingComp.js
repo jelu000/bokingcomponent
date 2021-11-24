@@ -170,7 +170,7 @@ Initate LocalStorage
         //skriver ut boknings koll text
         let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}.  `
         //Skapar boknings objekt från boknings klass
-        let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false, this.state.pris);
+        let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, this.state.swish, this.state.pris);
 
         //Local storage kanske för DB sen
         let localStorageDB = new LocalStorageHandler();
@@ -193,7 +193,7 @@ Initate LocalStorage
         //skriver ut boknings koll text
         let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}. BokningsId: ${this.state.state_bokningsId}  `
         //Skapar boknings objekt från boknings klass
-        let bokning = new Bokning(this.state.state_bokningsId ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, false, this.state.pris);
+        let bokning = new Bokning(this.state.state_bokningsId ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, this.state.swish, this.state.pris);
 
         //console.log(`Uppdatera!!! ${this.state.state_bokningsId} namn: ${bokning.t_name}`);
         //Local storage handler för DB och kanske för DB sen
@@ -261,6 +261,16 @@ Initate LocalStorage
     
   }//end of selectMin()---------------------------------------------------------------
 
+  
+  //setBabsBool() set the swish state as boolean--------------------------------------
+  setBabsBool = (evt) => { 
+    
+    let t_checked = !this.state.swish;
+    this.setState({ swish: t_checked}
+  
+  )}
+  //end of setBabsBool-----------------------------------------------------------------
+
   //editPrice()--------------------------------------------------------------------------
   editPrice = (e) => {
 
@@ -325,7 +335,9 @@ handleAssistentClick = (evt) => {
     document.getElementById("id_min").value=t_tidarray[1];
     //Sätter selecten för behandling
     document.getElementById("id_treatment").value=evt.t_treatment;
-     
+    
+    
+
     //används för att uppdatera vald bokning
     this.setState({
       //state_valdBokning: evt,
@@ -333,7 +345,9 @@ handleAssistentClick = (evt) => {
       state_bokningsId: evt.t_id,
       tidtim: t_tidarray[0],
       tidmin: t_tidarray[1],
-      pris: t_boking.t_price
+      pris: t_boking.t_price,
+      //för swish
+      swish: evt.t_babs
     });
     //this.setState({ tidmin: evt.target.value }
 
@@ -370,7 +384,7 @@ handleAssistentClick = (evt) => {
           <div className="innerdivs">
             Pris:
             <input tabIndex="5" id="idpris" type="text" size="4" onChange={this.editPrice} value={this.state.pris}/> 
-            Swish: <input tabIndex="6" type="checkbox"/>
+            Swish: <input tabIndex="6" value={this.state.swish} type="checkbox" onChange={this.setBabsBool}/>
           </div>
 
           <div className="innerdivs">
@@ -378,6 +392,7 @@ handleAssistentClick = (evt) => {
           </div>
 
           <hr/>
+          
           <h3>Kund</h3>
 
           <div className="innerdivs">

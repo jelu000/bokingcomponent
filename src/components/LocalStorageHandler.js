@@ -123,6 +123,28 @@ export default class LocalStorageHandler {
         
     }
 
+    getSailsDay(t_datum){
+        let t_products = []; 
+        
+        let t_product_1 = {
+            id: "1",
+            productname: "hjärtligt shampo",
+            pris: "140",
+            swish: false
+        }
+        let t_product_2 = {
+            id: "2",
+            productname: "hjärtligt spray",
+            pris: "170",
+            swish: true
+        }
+
+        t_products.push(t_product_1);
+        t_products.push(t_product_2);
+
+        return t_products;
+    }
+
     
 
 }

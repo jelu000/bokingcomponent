@@ -271,6 +271,22 @@ Initate LocalStorage
   )}
   //end of setBabsBool-----------------------------------------------------------------
 
+   //setInternetBokingBool() set the swish state as boolean--------------------------------------
+   setInternetBokingBool = (evt) => { 
+    
+    console.log(`setInternetBokingBool: ${ this.state.state_bokningsId}`);
+    
+    if (this.state.state_bokningsId !== ""){
+      alert("Denna tid är redan upptagen!")
+    }
+    else{ 
+      let t_checked = !this.state.internetbokning;
+      this.setState({ internetbokning: t_checked})
+    }
+  }
+  //end of setInternetBokingBool-----------------------------------------------------------------
+
+
   //editPrice()--------------------------------------------------------------------------
   editPrice = (e) => {
 
@@ -323,7 +339,9 @@ handleAssistentClick = (evt) => {
     //Kanske inte behövs för att uppdatera bokning - räcker med bokning id!
     //console.log(`valdBokingEvt t_time: ${evt.t_time}`);
     let t_boking = new Bokning(evt.t_id, evt.t_time, evt.t_date, evt.t_name, evt.t_email, evt.t_phone, evt.t_assistent, evt.t_treatment, evt.t_inetboking, evt.t_babs, evt.t_price);
-   
+    console.log(`valdBokingEvt(evt) ${JSON.stringify(t_boking)}`);
+
+
     document.getElementById("textfelt_namn").value = evt.t_name;
     document.getElementById("textfelt_tel").value = evt.t_phone;
      
@@ -335,6 +353,9 @@ handleAssistentClick = (evt) => {
     document.getElementById("id_min").value=t_tidarray[1];
     //Sätter selecten för behandling
     document.getElementById("id_treatment").value=evt.t_treatment;
+    document.getElementById("selbitrade").value=evt.t_assistent;
+    document.getElementById("swishcheckbox").checked=evt.t_babs;
+    
     
     
 
@@ -384,11 +405,11 @@ handleAssistentClick = (evt) => {
           <div className="innerdivs">
             Pris:
             <input tabIndex="5" id="idpris" type="text" size="4" onChange={this.editPrice} value={this.state.pris}/> 
-            Swish: <input tabIndex="6" value={this.state.swish} type="checkbox" onChange={this.setBabsBool}/>
+            Swish: <input tabIndex="6" id="swishcheckbox" value={this.state.swish} type="checkbox" onChange={this.setBabsBool}/>
           </div>
 
           <div className="innerdivs">
-            InternetBokning <input tabIndex="7" type="checkbox" id="b_internetboking" />
+            InternetBokning <input tabIndex="7" value={this.state.internetbokning} type="checkbox" id="b_internetboking" onChange={this.setInternetBokingBool} />
           </div>
 
           <hr/>

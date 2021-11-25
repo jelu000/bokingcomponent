@@ -10,7 +10,7 @@ const ChoseAssistent = (props) => {
     <div>
       Biträde: <select tabIndex="3" name="selbitrade" id="selbitrade" onChange={props.handleAssistentClick}>
         {t_assistents.map((assitent, index) => (
-          <option key={index}>{assitent}</option>
+          <option value={assitent} key={index}>{assitent}</option>
         ))}
       </select>
     </div>

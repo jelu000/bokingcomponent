@@ -4,6 +4,7 @@ import SweCalenderLang from "../SweCalenderLang";
 
 import DagensKunderTable from './DagensKunderTable';
 import SummeringTable from './SummeringTable';
+import ProductsSailsTable from './ProductsSailsTable';
 import LocalStorageHandler from '../LocalStorageHandler';
 import '../SweCalenderLang.css';
 
@@ -32,7 +33,8 @@ export default class Dagsavslut extends Component {
             summa_table_array: [],
             summa_lastrow_obj: {},
             //unika namn för assistent och vald dag
-            uppdelad_namn_array: []
+            uppdelad_namn_array: [],
+            sails_array: []
         }
 
         this.clickDagEvent = this.clickDagEvent.bind(this);
@@ -61,12 +63,15 @@ Initate LocalStorage
         //lägger  till sista raden med summering av intäkter för alla biträden
         t_summa_table_array.push(t_summa_row_object);
 
+        //hämtar försäljning
+        let t_sails = localStorageDB.getSailsDay(this.state.selectedDay);
+
         this.setState({
         bokingsarray: t_array_bokningar,
         uppdelad_namn_array: t_uniq_assisarray,
         summa_table_array: t_summa_table_array,
-        summa_lastrow_obj: t_summa_row_object
-        //behandlingar: t_array_behandlingar,
+        summa_lastrow_obj: t_summa_row_object,
+        sails_array: t_sails
         //pris: t_array_behandlingar[0].t_price
         });
         
@@ -82,6 +87,22 @@ Initate LocalStorage
         return t_unique_assisarray
     }//end of skapaArrayUnikaNamnAssitenter-------------------------------------------------
 
+    convertSailTableArray(t_array){
+
+        let t_babs = 0;
+        let t_kassa = 0;
+        let t_totalt = 0;
+
+        t_array.forEach( (obj) => {
+        
+            if (obj.swish)
+                t_babs += parseInt(obj.pris);
+            else
+                t_kassa += parseInt(obj.pris);
+        });
+        t_totalt = t_babs + t_kassa;
+        return {totalt: t_totalt, kassa: t_kassa, swish: t_babs };
+    }
 
     //clickDagEvent() - för calender-----------------------------------------------------------------------
     async clickDagEvent(dag){
@@ -101,18 +122,22 @@ Initate LocalStorage
         //lägger  till sista raden med summering av intäkter för alla biträden
         t_summa_table_array.push(t_summa_row_object);
 
+        //för försäljning av produkter
+        let t_sails = localStorageDB.getSailsDay(t_dag);
+
         await this.setState({
         valtDatum: dag,
         selectedDay: t_dag,
         bokingsarray: t_array_bokningar,
         uppdelad_namn_array: t_uniq_assisarray,
         summa_table_array: t_summa_table_array,
-        summa_lastrow_obj: t_summa_row_object
+        summa_lastrow_obj: t_summa_row_object,
+        sails_array: t_sails
         
         });
         
         //console.log(`Dagsavslut clickDagEvent(): ${t_dag} `)
-        console.log(`state.summa_table_array ${ JSON.stringify(this.state.summa_table_array)}`);
+        //console.log(`state.summa_table_array ${ JSON.stringify(this.state.summa_table_array)}`);
         
         
     }//end of clickDagEvent()--------------------------------------------------------------------
@@ -239,6 +264,7 @@ Initate LocalStorage
                     <h3>Summa Biträde </h3>
                     <SummeringTable summabokingtable={this.state.summa_table_array} />
                     <h3>Försäljning </h3>
+                    <ProductsSailsTable productssailstable={this.convertSailTableArray(this.state.sails_array)} />
                     <h3>Bokföring </h3>
                     <p>Arbete: {this.state.summa_lastrow_obj.sammanlagt_pris}kr</p>
                     

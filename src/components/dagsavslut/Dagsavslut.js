@@ -31,10 +31,12 @@ export default class Dagsavslut extends Component {
             tot_int_babs: 0,
             //För summeringstabell skicka SummeringTable component
             summa_table_array: [],
-            summa_lastrow_obj: {},
+            summa_lastrow_obj: {assistent: "", sammanlagt_pris: 0, sammanlagt_babs: 0, sammanlagt_kontant: 0},
             //unika namn för assistent och vald dag
             uppdelad_namn_array: [],
-            sails_array: []
+            //för ProductsSailsTable
+            sails_array: [], //försäljning av produkter för en dag
+            summadaysails: {totalt: 0, kassa: 0, swish: 0 } //object med Total, Swish och kassa försäljning 
         }
 
         this.clickDagEvent = this.clickDagEvent.bind(this);
@@ -65,13 +67,15 @@ Initate LocalStorage
 
         //hämtar försäljning
         let t_sails = localStorageDB.getSailsDay(this.state.selectedDay);
+        let t_summa_product_sail = this.convertSailTableArray(t_sails);
 
         this.setState({
         bokingsarray: t_array_bokningar,
         uppdelad_namn_array: t_uniq_assisarray,
         summa_table_array: t_summa_table_array,
         summa_lastrow_obj: t_summa_row_object,
-        sails_array: t_sails
+        sails_array: t_sails,
+        summadaysails: t_summa_product_sail
         //pris: t_array_behandlingar[0].t_price
         });
         
@@ -124,6 +128,7 @@ Initate LocalStorage
 
         //för försäljning av produkter
         let t_sails = localStorageDB.getSailsDay(t_dag);
+        let t_summa_product_sail = this.convertSailTableArray(t_sails);
 
         await this.setState({
         valtDatum: dag,
@@ -132,7 +137,8 @@ Initate LocalStorage
         uppdelad_namn_array: t_uniq_assisarray,
         summa_table_array: t_summa_table_array,
         summa_lastrow_obj: t_summa_row_object,
-        sails_array: t_sails
+        sails_array: t_sails,
+        summadaysails: t_summa_product_sail
         
         });
         
@@ -155,58 +161,58 @@ Initate LocalStorage
     //createSummaTableArray----------------------------------------------------------
     createSummaTableArray(uniquenames, bokkningsarray){
 
-    let t_uppdelad_namn_array = [];
+        let t_uppdelad_namn_array = [];
 
-    //forEach()To greate array for unic Assistent-------------------------------------------------------------------------
-    uniquenames.forEach( (t_name, i) => {
-        //console.log(`for: ${i}  : ${t_name}`);
-    
-            
-        let sammanlagt_pris = 0;
-        let sammanlagt_babs = 0;
-        let sammanlagt_kontant = 0;
-        //let sammandragarray = [];
-                    
-        let t_object= {};
+        //forEach()To greate array for unic Assistent-------------------------------------------------------------------------
+        uniquenames.forEach( (t_name, i) => {
+            //console.log(`for: ${i}  : ${t_name}`);
+        
+                
+            let sammanlagt_pris = 0;
+            let sammanlagt_babs = 0;
+            let sammanlagt_kontant = 0;
+            //let sammandragarray = [];
+                        
+            let t_object= {};
 
-        bokkningsarray.forEach( (bok_obj, i) => {
+            bokkningsarray.forEach( (bok_obj, i) => {
 
-            
-        if (bok_obj.t_assistent === t_name){
+                
+            if (bok_obj.t_assistent === t_name){
 
-            sammanlagt_pris = sammanlagt_pris + parseInt(bok_obj.t_price);
+                sammanlagt_pris = sammanlagt_pris + parseInt(bok_obj.t_price);
 
-            if (bok_obj.t_babs) {
-                sammanlagt_babs = sammanlagt_babs + parseInt(bok_obj.t_price);
-            }
-            else {
-                sammanlagt_kontant = sammanlagt_kontant + parseInt(bok_obj.t_price);
-            }
+                if (bok_obj.t_babs) {
+                    sammanlagt_babs = sammanlagt_babs + parseInt(bok_obj.t_price);
+                }
+                else {
+                    sammanlagt_kontant = sammanlagt_kontant + parseInt(bok_obj.t_price);
+                }
 
-            t_object = {
-                assistent: t_name,
-                sammanlagt_pris: sammanlagt_pris,
-                sammanlagt_babs: sammanlagt_babs,
-                sammanlagt_kontant: sammanlagt_kontant
-            }                    
-                //console.log(`forEach name: ${t_name}`)
-        }//en of outer if
-    
-    });//End of inner forEach()
+                t_object = {
+                    assistent: t_name,
+                    sammanlagt_pris: sammanlagt_pris,
+                    sammanlagt_babs: sammanlagt_babs,
+                    sammanlagt_kontant: sammanlagt_kontant
+                }                    
+                    //console.log(`forEach name: ${t_name}`)
+            }//en of outer if
+        
+        });//End of inner forEach()
 
-        //sammandragarray.push(t_object);DE HÄR LA BARA EN ARRAY I ARRAYEN ISTÄLLET FÖR ETT ASSISTENTOBJECT
-        //uppdelad_namn_array.push(sammandragarray);
+            //sammandragarray.push(t_object);DE HÄR LA BARA EN ARRAY I ARRAYEN ISTÄLLET FÖR ETT ASSISTENTOBJECT
+            //uppdelad_namn_array.push(sammandragarray);
 
-        t_uppdelad_namn_array.push(t_object);
+            t_uppdelad_namn_array.push(t_object);
 
-    });//End of outer forEach();------------------------------------------------------------------------------------
+        });//End of outer forEach();------------------------------------------------------------------------------------
 
-    
-    //let t_rowobject = this.createLastSummaRow(t_uppdelad_namn_array)
-    //t_uppdelad_namn_array.push(t_rowobject);
-    //console.log(`createSummaTableArray: ${ JSON.stringify(t_uppdelad_namn_array)} length: ${t_uppdelad_namn_array.length} `);
-    
-    return t_uppdelad_namn_array;
+        
+        //let t_rowobject = this.createLastSummaRow(t_uppdelad_namn_array)
+        //t_uppdelad_namn_array.push(t_rowobject);
+        //console.log(`createSummaTableArray: ${ JSON.stringify(t_uppdelad_namn_array)} length: ${t_uppdelad_namn_array.length} `);
+        
+        return t_uppdelad_namn_array;
     }
     // end of createSummaTableArray.....................................................
 
@@ -247,7 +253,7 @@ Initate LocalStorage
     render() {
 
         //const t_dagenskundertable = DagensKunderTable();
-
+        //<ProductsSailsTable productssailstable={this.convertSailTableArray(this.state.sails_array)} />
         return (
             <div className="MainBokingDiv">
             <h1 className="h1_header">Dagrapport {this.state.selectedDay}</h1>
@@ -264,9 +270,16 @@ Initate LocalStorage
                     <h3>Summa Biträde </h3>
                     <SummeringTable summabokingtable={this.state.summa_table_array} />
                     <h3>Försäljning </h3>
-                    <ProductsSailsTable productssailstable={this.convertSailTableArray(this.state.sails_array)} />
+                    <ProductsSailsTable productssailstable={this.state.summadaysails} />
                     <h3>Bokföring </h3>
-                    <p>Arbete: {this.state.summa_lastrow_obj.sammanlagt_pris}kr</p>
+                    <p>
+                        Arbete: {this.state.summa_lastrow_obj.sammanlagt_pris}kr, 
+                        Försäljning: {this.state.summadaysails.totalt}kr,
+                        Swish: {this.state.summa_lastrow_obj.sammanlagt_babs + this.state.summadaysails.swish}kr, 
+                        Kassa: {this.state.summa_lastrow_obj.sammanlagt_kontant + this.state.summadaysails.kassa}kr, 
+                        Summa intäkter: {this.state.summa_lastrow_obj.sammanlagt_pris + this.state.summadaysails.totalt}kr
+
+                    </p>
                     
                 </div>
                 <button onClick={this.printOut}>Skriv ut</button>

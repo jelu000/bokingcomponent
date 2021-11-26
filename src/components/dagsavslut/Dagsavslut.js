@@ -5,6 +5,7 @@ import SweCalenderLang from "../SweCalenderLang";
 import DagensKunderTable from './DagensKunderTable';
 import SummeringTable from './SummeringTable';
 import ProductsSailsTable from './ProductsSailsTable';
+import VerifikationTable from './VerifikationTable';
 import LocalStorageHandler from '../LocalStorageHandler';
 import '../SweCalenderLang.css';
 
@@ -280,9 +281,11 @@ Initate LocalStorage
                         Summa intäkter: {this.state.summa_lastrow_obj.sammanlagt_pris + this.state.summadaysails.totalt}kr
 
                     </p>
+                    <VerifikationTable summadaysails={this.state.summadaysails} summa_lastrow_obj={this.state.summa_lastrow_obj} />
+
                     
                 </div>
-                <button onClick={this.printOut}>Skriv ut</button>
+                <button className="printbutton" onClick={this.printOut}>Skriv ut</button>
             </div>
         )
     }

@@ -4,6 +4,13 @@
     display: block;
   }
 
+  .printbutton {
+    font-size: large;
+    padding: 2px;
+    margin: 20px;
+   
+  }
+
   @media print {
 
     body * {

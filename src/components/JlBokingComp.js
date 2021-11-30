@@ -95,9 +95,7 @@ class JlBokingComp extends React.Component {
 /*componentDidMount -------------------------------------------------------------------------------
 Initate LocalStorage
 */
-  componentDidMount(){
-  //console.log("Did Mount");//
-  //const t_bokingsarray = localStorage.getItem('bokningar');
+  componentDidMount(){  
   //console.log(`valtDatumTextfelt didMount: ${this.state.valtDatumTextfelt}`);
 
   let localStorageDB = new LocalStorageHandler();
@@ -130,8 +128,7 @@ Initate LocalStorage
      
      this.clearTextInputs();
      //console.log(`Kill: ${this.state.valtDatum} : ${this.state.valtDatumTextfelt}`)
-     //this.setState({state_bokningskoll: ""});
-     //console.log(`clickDagEvent 119 state_bokningskoll ${this.state.state_bokningskoll}`);
+    
   }//end of clickDagEvent()--------------------------------------------------------------------
 
   //clickMonthChange()-----------------------------------------------------------------------------
@@ -176,7 +173,7 @@ Initate LocalStorage
         let localStorageDB = new LocalStorageHandler();
         let t_dagarray_bokningar = localStorageDB.addBoking(bokning);
         
-        console.log(`addBoking: ${ JSON.stringify(t_dagarray_bokningar)}`);
+        //console.log(`addBoking: ${ JSON.stringify(t_dagarray_bokningar)}`);
         
         //sätter state och uppdaterar grafiskt användar gränssnitt för de komponenter som påverkas av detta
         await this.setState({
@@ -321,15 +318,16 @@ Initate LocalStorage
       </select>
     );
   }//end of selectTreatment()----------------------------------------------------------------------
-//handleAssistentClick--------------------------------------------------------------------------
-handleAssistentClick = (evt) => {
-  //console.log(`handleAssistentClick() ${evt.target.value}`);
-  this.setState({
-    state_vald_assistent: evt.target.value,
-    state_bokningskoll: ""
-  })
-}
-//end of handleAssistentClick-----------------------------------------------------------------------
+
+  //handleAssistentClick() -callback for BokingTableButt-----------------------------------------------------
+  handleAssistentClick = (evt) => {
+    //console.log(`handleAssistentClick() ${evt.target.value}`);
+    this.setState({
+      state_vald_assistent: evt.target.value,
+      state_bokningskoll: ""
+    })
+  }
+  //end of handleAssistentClick-----------------------------------------------------------------------
   /* 
   valdBokingEvt(evt)
   In: callBack event from BokingTableButton that returns a Bokning object - used in BokingTableButton
@@ -339,7 +337,7 @@ handleAssistentClick = (evt) => {
     //Kanske inte behövs för att uppdatera bokning - räcker med bokning id!
     //console.log(`valdBokingEvt t_time: ${evt.t_time}`);
     let t_boking = new Bokning(evt.t_id, evt.t_time, evt.t_date, evt.t_name, evt.t_email, evt.t_phone, evt.t_assistent, evt.t_treatment, evt.t_inetboking, evt.t_babs, evt.t_price);
-    console.log(`valdBokingEvt(evt) ${JSON.stringify(t_boking)}`);
+    //console.log(`valdBokingEvt(evt) ${JSON.stringify(t_boking)}`);
 
 
     document.getElementById("textfelt_namn").value = evt.t_name;
@@ -357,8 +355,6 @@ handleAssistentClick = (evt) => {
     document.getElementById("swishcheckbox").checked=evt.t_babs;
     
     
-    
-
     //används för att uppdatera vald bokning
     this.setState({
       //state_valdBokning: evt,
@@ -374,37 +370,16 @@ handleAssistentClick = (evt) => {
 
 }//end of valdBokingEvt(evt)----------------------------------------------------
 
-//createBokingTables() -För bokningsTable till varje assistent-----------------------------------------------------------
+//createBokingTables() -För bokningsTable till varje assistent----------------------------------------------------
+//returns - [{"t_assistent":"STRING","table_obj":[{"OBJECT"}]}, {"t_assistent":"STRING","table_obj":[{"OBJECT"}]}]
 createBokingTables(){
   let t_assistents = this.state.assistents;
   let t_this_daybokings = this.state.state_vald_dag_arraybokningar;
 
-  //t_assistents.forEach( (t_assis) => {
-
-      //t_this_daybokings.forEach( (t_dayboking) => {
-        
-        //console.log(`boking = ${JSON.stringify(t_dayboking)}`);
-
-        //if (t_dayboking.t_assistent === t_assis){
-          //console.log(`boking = ${JSON.stringify(t_dayboking)}`);
-        //}
-
-      //});
-    
-  //});
-
-  /*
-  let t_array_table = t_assistents.map( (t_assis) => { return t_this_daybokings.filter( (t_dayboking) => { 
-      if (t_assistents===t_dayboking.t_assistent)
-        return t_dayboking;  
-    });
-  });
-  */
-
-    let t_array_table = t_assistents.map( (t_assis) => {
-
+  //Start of map()---------------------------------------------------------------  
+  //returns array of objects with assistentname(t_asssitent) and array with tabledata bokings(table_obj)
+  let t_array_table = t_assistents.map( (t_assis) => {
       
-
       //new array
       let t_new_boking_array = [];
 
@@ -421,21 +396,18 @@ createBokingTables(){
       
       //Create a table object, assistent name as (string)=t_key and table_obj as(Object)
       let tableobjekt = {t_assistent: t_assis, table_obj: t_new_boking_array};
-      console.log(`tableobject ${JSON.stringify(tableobjekt)}`);
+      //console.log(`tableobject ${JSON.stringify(tableobjekt)}`);
 
       
-      
-      return t_new_boking_array;   
-      //t_array_table.push(t_new_boking_array);  
+      return tableobjekt;
+      //return t_new_boking_array;   
+    
     });//end of map()
      
      //console.log(`t_table = ${ JSON.stringify(t_array_table) }  LENGTH ${t_array_table.length}`);
 
-     //let T_BokingTable = BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar}
-
-  return t_array_table;
-}
- //end of createBokingTables---------------------------------------------------------------
+    return t_array_table;
+  }//end of createBokingTables---------------------------------------------------------------
 
 
   //render()-------------------------------------------------------------------------------------------------
@@ -449,9 +421,9 @@ createBokingTables(){
 
     let t_bokingtable_data = this.createBokingTables();
 
-    let t_jsx_tables = t_bokingtable_data.map( (assis_table, it) => {
+    let t_jsx_tables = t_bokingtable_data.map( (assis_table_obj, it) => {
 
-      return ( <div key={it}><h3>Name</h3> <BokingTable key={it} valdBokingEvt={this.valdBokingEvt} bokningsarray={assis_table} /> </div>)
+      return ( <div key={it}><h3>{assis_table_obj.t_assistent}</h3> <BokingTable key={assis_table_obj.t_assistent} valdBokingEvt={this.valdBokingEvt} bokningsarray={assis_table_obj.table_obj} /> </div>)
 
     });
 
@@ -499,15 +471,10 @@ createBokingTables(){
             </div>
           </div>
 
-          
           {bokningskoll_div}
             
-
           <hr/>
           
-            
-            
-
           <h3>Lista Bokningar {this.state.valtDatumTextfelt}</h3>
           
            { /*<BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar } / > */}

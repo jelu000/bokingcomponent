@@ -149,3 +149,27 @@ export default class DbBokingTest {
   }
 }
 }
+
+
+//lite loopa ----------------------------------------------------------------------------------------
+//t_assistents.forEach( (t_assis) => {
+
+      //t_this_daybokings.forEach( (t_dayboking) => {
+        
+        //console.log(`boking = ${JSON.stringify(t_dayboking)}`);
+
+        //if (t_dayboking.t_assistent === t_assis){
+          //console.log(`boking = ${JSON.stringify(t_dayboking)}`);
+        //}
+
+      //});
+    
+  //});
+
+  /*
+  let t_array_table = t_assistents.map( (t_assis) => { return t_this_daybokings.filter( (t_dayboking) => { 
+      if (t_assistents===t_dayboking.t_assistent)
+        return t_dayboking;  
+    });
+  });
+  */

@@ -8,7 +8,9 @@
    /*color: #3366BB;*/
    /*border-top-color: #3366BB;*/
  }
-
+ p{
+  margin: 20px;
+ }
  h1{
    font-family: sans-serif;
    font-variant: normal;

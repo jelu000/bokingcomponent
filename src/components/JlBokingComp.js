@@ -374,6 +374,60 @@ handleAssistentClick = (evt) => {
 
 }//end of valdBokingEvt(evt)----------------------------------------------------
 
+//createBokingTables() -För bokningsTable till varje assistent-----------------------------------------------------------
+createBokingTables(){
+  let t_assistents = this.state.assistents;
+  let t_this_daybokings = this.state.state_vald_dag_arraybokningar;
+
+  //t_assistents.forEach( (t_assis) => {
+
+      //t_this_daybokings.forEach( (t_dayboking) => {
+        
+        //console.log(`boking = ${JSON.stringify(t_dayboking)}`);
+
+        //if (t_dayboking.t_assistent === t_assis){
+          //console.log(`boking = ${JSON.stringify(t_dayboking)}`);
+        //}
+
+      //});
+    
+  //});
+
+  /*
+  let t_array_table = t_assistents.map( (t_assis) => { return t_this_daybokings.filter( (t_dayboking) => { 
+      if (t_assistents===t_dayboking.t_assistent)
+        return t_dayboking;  
+    });
+  });
+  */
+
+    let t_array_table = t_assistents.map( (t_assis) => {
+
+      let t_new_boking_array = [];
+
+      for(let i=0; i<t_this_daybokings.length; i++) {
+        
+        //console.log(`innerloop ${i} : assis ${t_this_daybokings[i].t_assistent}`);
+        if (t_assis === t_this_daybokings[i].t_assistent){
+          console.log(`${JSON.stringify(t_this_daybokings[i].t_assistent)}  = ${JSON.stringify(t_assis)} :: ${t_assis === t_this_daybokings[i].t_assistent} `);
+          //console.log(`${i}: Bokingobject= ${JSON.stringify(t_bokning)} `)
+          t_new_boking_array.push(t_this_daybokings[i]);
+          
+        }
+      }//end of for loop
+      return t_new_boking_array;   
+      //t_array_table.push(t_new_boking_array);  
+    });//end of map()
+     
+     console.log(`t_table = ${ JSON.stringify(t_array_table) }  LENGTH ${t_array_table.length}`);
+
+     //let T_BokingTable = BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar}
+
+  return t_array_table;
+}
+ //end of createBokingTables---------------------------------------------------------------
+
+
   //render()-------------------------------------------------------------------------------------------------
   render () {
        
@@ -382,6 +436,15 @@ handleAssistentClick = (evt) => {
     if (this.state.state_bokningskoll !== ""){
       bokningskoll_div = <div className="innerdivs"><p id="bokningskoll">{this.state.state_bokningskoll}</p></div>
     }
+
+    let t_bokingtable_data = this.createBokingTables();
+
+    let t_jsx_tables = t_bokingtable_data.map( (assis_table) => {
+
+      return <BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={assis_table} / >
+
+    });
+
     
     return (
       <div className="MainBokingDiv">
@@ -431,9 +494,19 @@ handleAssistentClick = (evt) => {
             
 
           <hr/>
+          
+            {/*this.createBokingTables()*/
+             t_jsx_tables
+            }
+            
+
           <h3>Lista Bokningar {this.state.valtDatumTextfelt}</h3>
           
            <BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar} / >
+
+           <div>
+            
+           </div>  
           
       </div>
     )

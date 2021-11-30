@@ -403,23 +403,33 @@ createBokingTables(){
 
     let t_array_table = t_assistents.map( (t_assis) => {
 
+      
+
+      //new array
       let t_new_boking_array = [];
 
       for(let i=0; i<t_this_daybokings.length; i++) {
         
         //console.log(`innerloop ${i} : assis ${t_this_daybokings[i].t_assistent}`);
         if (t_assis === t_this_daybokings[i].t_assistent){
-          console.log(`${JSON.stringify(t_this_daybokings[i].t_assistent)}  = ${JSON.stringify(t_assis)} :: ${t_assis === t_this_daybokings[i].t_assistent} `);
+          //console.log(`${JSON.stringify(t_this_daybokings[i].t_assistent)}  = ${JSON.stringify(t_assis)} :: ${t_assis === t_this_daybokings[i].t_assistent} `);
           //console.log(`${i}: Bokingobject= ${JSON.stringify(t_bokning)} `)
           t_new_boking_array.push(t_this_daybokings[i]);
           
         }
       }//end of for loop
+      
+      //Create a table object, assistent name as (string)=t_key and table_obj as(Object)
+      let tableobjekt = {t_assistent: t_assis, table_obj: t_new_boking_array};
+      console.log(`tableobject ${JSON.stringify(tableobjekt)}`);
+
+      
+      
       return t_new_boking_array;   
       //t_array_table.push(t_new_boking_array);  
     });//end of map()
      
-     console.log(`t_table = ${ JSON.stringify(t_array_table) }  LENGTH ${t_array_table.length}`);
+     //console.log(`t_table = ${ JSON.stringify(t_array_table) }  LENGTH ${t_array_table.length}`);
 
      //let T_BokingTable = BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar}
 
@@ -439,9 +449,9 @@ createBokingTables(){
 
     let t_bokingtable_data = this.createBokingTables();
 
-    let t_jsx_tables = t_bokingtable_data.map( (assis_table) => {
+    let t_jsx_tables = t_bokingtable_data.map( (assis_table, it) => {
 
-      return <BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={assis_table} / >
+      return ( <div key={it}><h3>Name</h3> <BokingTable key={it} valdBokingEvt={this.valdBokingEvt} bokningsarray={assis_table} /> </div>)
 
     });
 
@@ -495,14 +505,13 @@ createBokingTables(){
 
           <hr/>
           
-            {/*this.createBokingTables()*/
-             t_jsx_tables
-            }
+            
             
 
           <h3>Lista Bokningar {this.state.valtDatumTextfelt}</h3>
           
-           <BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar} / >
+           { /*<BokingTable  valdBokingEvt={this.valdBokingEvt} bokningsarray={this.state.state_vald_dag_arraybokningar } / > */}
+           { t_jsx_tables }
 
            <div>
             

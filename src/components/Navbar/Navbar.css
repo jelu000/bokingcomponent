@@ -12,6 +12,7 @@
     height: 75px;
     background-color: darkgreen;
     color: whitesmoke;
+    z-index: 9999;
 }
 
 .logo{
@@ -64,6 +65,7 @@
         top: 75px;
         transition: all 0.5s ease-in-out;
         width:  100%;
+        z-index: 9999;
     }
 
     .home, .about{
@@ -71,7 +73,9 @@
        text-align: center;
        padding: 32px;
        width: 100%;
-       transition: all 0.5s ease; 
+       transition: all 0.5s ease;
+       /*Detta La till Meny on top över kalender!*/ 
+       z-index: 9999;
     }
 
     .mobile-menu-icon{
@@ -84,7 +88,31 @@
         outline: none;
         top: 15px;
         right: 25px;
+        /*Detta La till Meny on top över kalender!*/
+        z-index: 9999;
     }
+
+    /* La till dett föra att lägga kalendern under i mobilt läge */
+    /*
+    .MainBokingDiv{
+        padding: 20px;
+        padding-top: 100px;
+    */
+        /*margin: 20px;*/
+    /*
+        display: flex;
+        position: abolute;  
+      }
+    */
+
+    /* Provar överlagring av css för komponent react-day-picker*/
+    /*.DayPickerInput-Overlay {
+        position: fixed;
+    }
+
+    .DayPicker-NavButton {
+        position: fixed;
+    }*/
 }
     
 

@@ -7,7 +7,7 @@
   width: 380px;
   font-size: large;
   
-  
+      
 }
 
 /*.day_today {
@@ -34,4 +34,23 @@
   /*background-color: #51A0FA;*/
   background-color: lightgreen;
   
+}
+
+@media  screen and (max-width: 780px){
+   /* Provar överlagring av css för komponent react-day-picker*/
+   /* .DayPickerInput-Overlay {
+        position: static;
+    }
+
+    .DayPicker-NavButton {
+        position: static;
+    }
+    */
+    /*.DayPicker-Caption {
+      position: static;
+    }
+    .DayPicker {
+      position: static;
+    }*/
+    
 }

@@ -3,6 +3,8 @@ import { useState } from 'react';
 import {Link} from "react-router-dom";
 import "./Navbar.css"; 
 
+//https://github.com/remix-run/react-router/blob/main/docs/getting-started/tutorial.md
+
 const Navbar = () => {
     
     const [isMobile, setIsMobile] = useState(false);

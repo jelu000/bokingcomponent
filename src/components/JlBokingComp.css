@@ -1,7 +1,11 @@
 .MainBokingDiv{
   padding: 20px;
   /*margin: 20px;*/
+  
+  /*display: flex;*/
   display: block;
+  
+ 
 }
  input{
    margin: 10px;
@@ -49,9 +53,6 @@ thead{
   color: white;
 }
 
-#idpris{
-
-}
 #bokningskoll{
   width: 400px;
   border-width: thin;
@@ -78,3 +79,15 @@ th, td {
   font-weight: bolder;
   font-size: larger;
 }
+/*@media  screen and (max-width: 780px){
+  .MainBokingDiv{
+    
+    padding: 20px;
+    display: flex;
+    position:inherit;
+    
+    display: block;
+    margin: 20px;
+   
+  }
+}*/

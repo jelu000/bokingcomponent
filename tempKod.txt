@@ -173,3 +173,18 @@ export default class DbBokingTest {
     });
   });
   */
+
+
+  //Gammal fungerand router utan start component
+   <BrowserRouter>
+      <Navbar />
+           
+      <Routes>
+        <Route path="/" element={<JlBokingComp />} exact />
+        <Route path="/dagsavslut" element={<Dagsavslut />} exact />
+        <Route path="/om" element={<Om />} exact />
+        
+         
+      </Routes>
+      
+    </BrowserRouter>

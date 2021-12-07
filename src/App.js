@@ -6,9 +6,9 @@ import Om from './components/Om/Om';
 //import Utskrift from './components/dagsavslut/Utskrift';
 //<Route path="/utskrift" element={<Utskrift />} exact />
 
-import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-//https://github.com/remix-run/react-router/blob/main/docs/getting-started/tutorial.md
+//https://reactrouter.com/docs/en/v6/getting-started/overview
 
 function App() {
   return (
@@ -20,7 +20,10 @@ function App() {
       <Navbar />
            
       <Routes>
-        <Route path="/" element={<JlBokingComp />} exact />
+        
+        <Route index element={<JlBokingComp />} exact />
+        
+        
         <Route path="/dagsavslut" element={<Dagsavslut />} exact />
         <Route path="/om" element={<Om />} exact />
         

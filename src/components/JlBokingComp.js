@@ -88,8 +88,12 @@ class JlBokingComp extends React.Component {
   
     this.setState({
       state_bokningsId: "",
-      pris: vald_treatment.t_price
+      pris: vald_treatment.t_price,
+      swish: false
+      
     });
+
+    document.getElementById("swishcheckbox").checked = this.state.swish;
   }//end clearTextInputs()------------------------------------------------------------------------
 
 /*componentDidMount -------------------------------------------------------------------------------
@@ -124,6 +128,7 @@ Initate LocalStorage
       valtDatumTextfelt: t_dag,
       state_vald_dag_arraybokningar: dagensbokningar,
       state_bokningskoll: ""
+      
      });
      
      this.clearTextInputs();

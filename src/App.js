@@ -3,6 +3,7 @@ import JlBokingComp from "./components/JlBokingComp";
 import Navbar from './components/Navbar/Navbar';
 import Dagsavslut from './components/dagsavslut/Dagsavslut';
 import Om from './components/Om/Om';
+import Products from './components/produkter/Products'; 
 //import Utskrift from './components/dagsavslut/Utskrift';
 //<Route path="/utskrift" element={<Utskrift />} exact />
 
@@ -21,11 +22,13 @@ function App() {
            
       <Routes>
         
-        <Route index element={<JlBokingComp />} exact />
+        <Route path="/" element={<JlBokingComp />}  />
         
         
-        <Route path="/dagsavslut" element={<Dagsavslut />} exact />
-        <Route path="/om" element={<Om />} exact />
+        <Route path="/dagsavslut" element={<Dagsavslut />} />
+        <Route path="/produkter" element={<Products />}  />
+        <Route path="/om" element={<Om />}  />
+
         
          
       </Routes>

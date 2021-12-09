@@ -1,15 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class ProductTable extends Component {
+export default function ProductTable(props) {
 
-    constructor(props){
-        super(props);
+    let productsarray = props.product_array;         
+             
+             
+    let t_datatable = productsarray.map( (product, i) => {
+        let check = ' \u2713 ';    
+        return (
+          <tr className="bordertable" id={i}  key={i}>
+            <td className="bordertable" data-title="namn">{product.p_name}</td>
+            <td className="bordertable" data-title="pris">{product.p_price}</td>
+            <td className="bordertable" data-title="storlek">{product.p_size}</td>
+            <td className="bordertable" data-title="id">{product.p_id}</td>
+            <th className="bordertable" id="vald"><button type="button" className="checktablebutt" id={i} onClick={props.productTableButtClick}> {check} </button></th>
+            
+          </tr>
+        )
+      });
+             
 
 
 
-    }
-
-    render() {
+     
         return (
             <div>
                 <table id="p_productstable" className="bordertable">
@@ -18,15 +31,16 @@ export default class ProductTable extends Component {
                         <th className="bordertable" id="p_column_name">Produkt namn</th>
                         <th className="bordertable" id="p_column_price">Pris</th>
                         <th className="bordertable" id="p_column_size">Storlek</th>
-                        <th className="bordertable" id="p_column_id">Id</th>                        
+                        <th className="bordertable" id="p_column_id">Id</th>
+                        <th className="bordertable" id="p_column_butt">välj</th>                          
                     </tr>
                 </thead>
                 <tbody>
-                {  }
+                { t_datatable }
                 </tbody>
             </table>
 
             </div>
         )
-    }
+    
 }

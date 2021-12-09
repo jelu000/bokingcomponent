@@ -7,14 +7,14 @@
 }
 .p_button{
     font-size: medium;
-    padding: 1px;
+    padding: 3px;
 }
 
 #p_id{
     width: 160px;
 }
 #p_productstable{
-    width: 700px;
+    width: 760px;
     border-collapse: collapse;
     border: 1px solid black;
     margin: 30px;
@@ -31,4 +31,7 @@
 }
 #p_column_id{
     width: 140px;
+}
+#p_column_butt{
+    width: 60px;
 }

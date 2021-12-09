@@ -1,3 +1,6 @@
+ctrl+shift+p = shortcuts
+
+
 //GammalKalender
 <DayPicker
   id="kalendern"

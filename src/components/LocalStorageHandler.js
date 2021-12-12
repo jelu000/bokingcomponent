@@ -5,6 +5,7 @@ import Treatment from "./behandlingar/Treatment";
 export default class LocalStorageHandler {
     constructor(){
         this.key = 'bokningar';
+        this.key_products = 'produkter';
 
         
         
@@ -20,6 +21,8 @@ export default class LocalStorageHandler {
         this.global_treatment_array = treatment_array;//Databas med behandlingar
     
     }
+
+    
 
     getBokingsDay(t_datum){
         //OBS! Denna JSON sträng kan inte vara tom för då funkar inte programmet först gången man startar det!! 
@@ -79,6 +82,8 @@ export default class LocalStorageHandler {
         return this.getBokingsDay(new_boking_obj.t_date);
 
     }
+
+    
 
     updateBoking(id, new_boking_obj){
         
@@ -143,6 +148,50 @@ export default class LocalStorageHandler {
         t_products.push(t_product_2);
 
         return t_products;
+    }
+
+    sortProductName = (element_a, element_b) => {
+        let ea = element_a.p_name.toLowerCase();
+        let eb = element_b.p_name.toLowerCase();
+
+
+        if (ea < eb){
+          return -1;
+        }
+        if (ea > eb){
+          return 1;
+        }
+        return 0;        
+      }
+    
+    addProdukt(new_produkt){
+        let produkts_string = "[]";
+        let produkt_array = [];
+
+        //Add id to new_product
+        let p_id = Date.now();
+        new_produkt.p_id = p_id;
+        
+        if ( localStorage.getItem(this.key_products) !== null ){
+            produkts_string = localStorage.getItem(this.key_products);
+
+        }
+
+        try {
+            console.log(`addProduct ${produkts_string} `)
+            produkt_array = JSON.parse(produkts_string);
+            console.log(`addProduct ${JSON.stringify(produkt_array)} `)
+            produkt_array.push(new_produkt);
+            localStorage.setItem(this.key_products, JSON.stringify(produkt_array));
+
+        }
+        catch (e){
+            console.log(e);
+        }
+
+        produkt_array.sort(this.sortProductName);
+        
+        return produkt_array;
     }
 
     

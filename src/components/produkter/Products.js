@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Products.css';
 import ProductTable from './ProductTable';
 import Product from './Product';
+import LocalStorageHandler from '../LocalStorageHandler';
 
 
 export default class Products extends Component {
@@ -49,11 +50,15 @@ export default class Products extends Component {
 
     saveButtonClick(){
         let t_product = new Product(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
-        let t_array = this.state.state_products_table;
-        t_array.push(t_product);
+        //let t_array = this.state.state_products_table;
+        //t_array.push(t_product);
+
+        let localstorage_handler = new LocalStorageHandler();
+        let product_table_array = localstorage_handler.addProdukt(t_product);
 
         this.setState({
-            state_products_table: t_array
+            //state_products_table: t_array
+            state_products_table: product_table_array
         });
 
         this.clearFields();

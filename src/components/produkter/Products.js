@@ -21,6 +21,19 @@ export default class Products extends Component {
         this.saveButtonClick = this.saveButtonClick.bind(this);
     }
 
+    /*componentDidMount -------------------------------------------------------------------------------
+Initate LocalStorage
+*/
+  componentDidMount(){  
+    //console.log(`valtDatumTextfelt didMount: ${this.state.valtDatumTextfelt}`);
+  
+    let localStorageDB = new LocalStorageHandler();
+    //let t_array_behandlingar = localStorageDB.getTreatments();
+    this.setState({
+        state_products_table: localStorageDB.getProducts()
+    });
+  }
+
     inputTextChangeName = (ev) => {
         console.log(`Test: ${ev.target.value}`)
         this.setState({ state_name: ev.target.value });
@@ -46,6 +59,7 @@ export default class Products extends Component {
         document.getElementById("p_name").value="";
         document.getElementById("p_price").value="";
         document.getElementById("p_size").value="";
+        document.getElementById("p_id").value="";
     }
 
     saveButtonClick(){
@@ -64,8 +78,57 @@ export default class Products extends Component {
         this.clearFields();
     }
 
+    delButtonClick = (ev) =>  { //ändrade till arrowFunction & fick Bort! -TypeError: this is undefined
+        const t_id = document.getElementById("p_id").value;
+        
+       
+
+
+        if (t_id !== ""){
+            try{
+                let localstorage = new LocalStorageHandler();
+                let t_prod_table = localstorage.deleteProduct(t_id);
+                
+                this.setState({
+                    //state_products_table: t_array
+                    state_products_table: t_prod_table
+                });
+                
+                this.clearFields();
+            }
+            catch (e){
+                alert(`delButt click: ${e}`);
+            }
+        }
+        else
+            alert("Id är tomt!");
+    }
+
     productTableButtClick = (ev) =>{
         
+        //console.log(`product= ${ ev.target.id }`);
+
+        let p_id = ev.target.id;
+        let products_array = this.state.state_products_table;
+        
+        const searchproduct= products_array.find((prod) => prod.p_id===p_id);//FEL---------------------==
+        
+        this.setState({
+            state_id: p_id,
+            state_name: searchproduct.p_name,
+            state_size: searchproduct.p_size,
+            state_price: searchproduct.p_price,
+            
+        })
+        
+
+        document.getElementById("p_name").value = searchproduct.p_name;
+        document.getElementById("p_size").value = searchproduct.p_size;
+        document.getElementById("p_price").value = searchproduct.p_price;
+        document.getElementById("p_id").value = searchproduct.p_id;
+
+        //console.log(`searchproduct= ${ searchproduct.p_name }`);
+
     }
 
    
@@ -82,6 +145,7 @@ export default class Products extends Component {
                     Pris: <input type="text" className="short_textfelt" id="p_price" value={this.state_price} maxLength="6" onChange={this.inputTextChangePrice} />
                     <br />
                     <input id="p_savebutton" className="p_button" type="button" value="Spara" onClick={this.saveButtonClick} />
+                    <input id="p_delbutton" className="p_button" type="button" value="Tabort" onClick={this.delButtonClick} />
                     Id: <input type="text" className="short_textfelt" id="p_id"  readOnly />
 
                 </div>

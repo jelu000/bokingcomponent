@@ -170,7 +170,7 @@ export default class LocalStorageHandler {
 
         //Add id to new_product
         let p_id = Date.now();
-        new_produkt.p_id = p_id;
+        new_produkt.p_id = p_id.toString();
         
         if ( localStorage.getItem(this.key_products) !== null ){
             produkts_string = localStorage.getItem(this.key_products);
@@ -192,6 +192,71 @@ export default class LocalStorageHandler {
         produkt_array.sort(this.sortProductName);
         
         return produkt_array;
+    }
+
+    getProducts(){
+        let produkts_string = "[]";
+        let produkt_array = [];
+
+        if ( localStorage.getItem(this.key_products) !== null ){
+            produkts_string = localStorage.getItem(this.key_products);
+
+        }
+
+        try {
+           produkt_array = JSON.parse(produkts_string);
+        }
+        catch (e){
+            console.log(e);
+        }
+
+        produkt_array.sort(this.sortProductName);
+        
+        return produkt_array;
+
+    }
+
+    getProduct(p_id){
+
+        let produkts_string = "[]";
+        let produkt_array = [];
+
+        if ( localStorage.getItem(this.key_products) !== null ){
+            produkts_string = localStorage.getItem(this.key_products);
+
+        }
+
+        try {
+           produkt_array = JSON.parse(produkts_string);
+        }
+        catch (e){
+            console.log(e);
+        }
+         //Hitta  index nummer för vald produkt     
+         let t_index = produkt_array.findIndex((obj => obj.p_id === p_id));
+
+         //console.log(`Uppdatera index plats: ${t_index}`);
+         //Tilldelar index i array till de uppdaterade boknings objektet
+         return produkt_array[t_index];
+
+    }
+    deleteProduct(p_id){
+         //Hämtar array från LocalStorage med produkter
+         let products_json = localStorage.getItem(this.key_products);
+         let product_array_obj = JSON.parse(products_json);
+
+         console.log(`dP= ${typeof p_id}`);
+
+         product_array_obj.map( (obj) => console.log(`${typeof obj.p_id}`))
+
+         let t_filtered_products = product_array_obj.filter( prod_obj =>  prod_obj.p_id !== p_id);
+
+                //let t_filtered_bokings_json = JSON.stringify(t_filtered_bokings);
+                console.log(`i DELprod= ${JSON.stringify(t_filtered_products)}`);
+
+         localStorage.setItem(this.key_products, JSON.stringify(t_filtered_products));
+         
+        return  t_filtered_products;
     }
 
     

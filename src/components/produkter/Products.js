@@ -63,13 +63,24 @@ Initate LocalStorage
     }
 
     saveButtonClick(){
-        let t_product = new Product(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
-        //let t_array = this.state.state_products_table;
-        //t_array.push(t_product);
-
+        
         let localstorage_handler = new LocalStorageHandler();
-        let product_table_array = localstorage_handler.addProdukt(t_product);
+        let product_table_array = [];
 
+        if (this.state.state_id ===""){
+            let t_product = new Product(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
+            //let t_array = this.state.state_products_table;
+            //t_array.push(t_product);
+            product_table_array = localstorage_handler.addProdukt(t_product);
+        }
+        else{
+            product_table_array = localstorage_handler.updateProduct(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
+        }
+
+        
+        
+        
+        
         this.setState({
             //state_products_table: t_array
             state_products_table: product_table_array

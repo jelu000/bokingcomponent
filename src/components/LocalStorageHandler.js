@@ -259,6 +259,28 @@ export default class LocalStorageHandler {
         return  t_filtered_products;
     }
 
+    updateProduct(p_id, p_name, p_size, p_price ){
+        let products_json = localStorage.getItem(this.key_products);
+         let product_array_obj = JSON.parse(products_json);
+
+          //Hitta  index nummer för valt produkt-id     
+        let t_index = product_array_obj.findIndex((obj => obj.p_id === p_id));
+
+        
+        //Tilldelar index i array till de uppdaterade produkt objektet
+        product_array_obj[t_index].p_name = p_name;
+        product_array_obj[t_index].p_size = p_size;
+        product_array_obj[t_index].p_price = p_price;
+        //Sparar ner de till LocalStorage
+        localStorage.setItem(this.key_products, JSON.stringify(product_array_obj));
+        //sorterar
+        product_array_obj.sort(this.sortProductName);
+        //returnerar den uppdaterade produkt listan
+        return product_array_obj;
+
+
+    }
+
     
 
 }

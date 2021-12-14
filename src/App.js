@@ -4,6 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import Dagsavslut from './components/dagsavslut/Dagsavslut';
 import Om from './components/Om/Om';
 import Products from './components/produkter/Products'; 
+import ProductDaySales from './components/productsdaysales/ProductDaySales';
 //import Utskrift from './components/dagsavslut/Utskrift';
 //<Route path="/utskrift" element={<Utskrift />} exact />
 
@@ -24,7 +25,7 @@ function App() {
         
         <Route path="/" element={<JlBokingComp />}  />
         
-        
+        <Route path="/produktforsaljning" element={<ProductDaySales />} />
         <Route path="/dagsavslut" element={<Dagsavslut />} />
         <Route path="/produkter" element={<Products />}  />
         <Route path="/om" element={<Om />}  />

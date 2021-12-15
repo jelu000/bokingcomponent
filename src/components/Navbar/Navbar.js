@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import "./Navbar.css"; 
 
 //https://reactrouter.com/docs/en/v6/getting-started/overview
-
+//<h3 className="logo">Nobless</h3>  Låg i toppen
 const Navbar = () => {
     
     const [isMobile, setIsMobile] = useState(false);
@@ -12,7 +12,7 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             
-            <h3 className="logo">Nobless</h3>
+            
             <ul onClick={() => setIsMobile(false)} className={isMobile? "nav-links-mobile" : "nav-links"}>
                 
                 <Link to="/" className="home">

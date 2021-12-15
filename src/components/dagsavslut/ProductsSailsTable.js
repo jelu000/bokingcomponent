@@ -12,7 +12,7 @@ export default function ProductsSailsTable(props) {
                         
                         <th className="bordertable" id="t_totalt">Totalt</th>
                         <th className="bordertable" id="t_kassa">Kassa</th>
-                        <th className="border{innertable }table" id="t_swish">Swish</th>
+                        <th className="bordertable" id="t_swish">Swish</th>
                                         
                     </tr>
                 </thead>

@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import 'react-day-picker/lib/style.css';
 import SweCalenderLang from "../SweCalenderLang";
 import LocalStorageHandler from '../LocalStorageHandler';
-import './ProductDaySales.css'
+import SelectProductSails from './SelectProductSails';
+import TableProductDaySales from './TableProductDaySales';
+import './ProductDaySales.css';
 
 
 
@@ -21,7 +23,9 @@ export default class ProductDaySales extends Component {
            selectedDay: today_date.toLocaleDateString(), //Datum i format:  2021-11-16
            locale: 'swe',
            tidtim: '8',
-           tidmin: '00'
+           tidmin: '00',
+           product_array: [],
+           product_daysale_array: [] 
         }
 
         this.clickDagEvent = this.clickDagEvent.bind(this);
@@ -30,6 +34,11 @@ export default class ProductDaySales extends Component {
     componentDidMount(){
         
         let localStorageDB = new LocalStorageHandler();
+
+        this.setState({
+            product_array: localStorageDB.getProducts()
+            
+        });
     }
 
      //clickMonthChange()-----------------------------------------------------------------------------
@@ -37,6 +46,7 @@ export default class ProductDaySales extends Component {
         console.log(`månad: ${month}`);
         this.setState({
             selectedDay: month.toLocaleDateString()
+
         });
         
         //clearTextFields()
@@ -59,6 +69,9 @@ export default class ProductDaySales extends Component {
     }//end of clickDagEvent()--------------------------------------------------------------------
 
     render() {
+
+        
+
         return (
             <div className="MainBokingDiv" >
                 <h1 className="h1_header">Produktförsäljning</h1>
@@ -67,10 +80,17 @@ export default class ProductDaySales extends Component {
                 Datum: <input type="date" id="valt_datum" value={this.state.valtDatumTextfelt} readOnly/>
                
                 <hr/>
+                <div className="div_inner">
                 <h3>Lägg till såld produkt</h3>
-                
+                <SelectProductSails product_array={this.state.product_array} />
+                </div>
+                <hr/>
 
-                
+                <div className="div_inner">
+                <h3>produktförsäljning {this.state.valtDatumTextfelt}</h3>
+
+                <TableProductDaySales productarray_prop={this.state.product_daysale_array} />
+                </div>
                 
             </div>
         )

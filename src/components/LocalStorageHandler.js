@@ -6,7 +6,7 @@ export default class LocalStorageHandler {
     constructor(){
         this.key = 'bokningar';
         this.key_products = 'produkter';
-
+        this.key_productdaysale = 'productdaysale';
         
         
         //För Simuler Databas med behandlingar-----------------------------------------------
@@ -280,6 +280,38 @@ export default class LocalStorageHandler {
 
 
     }
+//-----------------------------------------------------------------------------------------------------
+//ProductDaySale
+//-----------------------------------------------------------------------------------------------------
+addProductDaySale(new_productdaysale){
+    let productday_string = "[]";
+    let productday_array = [];
+
+    //Add id to new_product
+    let p_id = Date.now();
+    new_productdaysale.p_id = p_id.toString();
+    
+    if ( localStorage.getItem(this.key_productdaysale) !== null ){
+        productday_string = localStorage.getItem(this.key_productdaysale);
+
+    }
+
+    try {
+        //console.log(`addProductDaySale ${produkts_string} `)
+        productday_array = JSON.parse(productday_string);
+        //console.log(`addProduct ${JSON.stringify(produkt_array)} `)
+        productday_array.push(new_productdaysale);
+        localStorage.setItem(this.key_productdaysale, JSON.stringify(productday_array));
+
+    }
+    catch (e){
+        console.log(e);
+    }
+
+    productday_array.sort(this.sortProductName);
+    
+    return productday_array;
+}
 
     
 

@@ -4,6 +4,9 @@ import SweCalenderLang from "../SweCalenderLang";
 import LocalStorageHandler from '../LocalStorageHandler';
 import SelectProductSails from './SelectProductSails';
 import TableProductDaySales from './TableProductDaySales';
+import ProductDaySale from './ProductDaySale';
+import Product from '../produkter/Product';
+
 import './ProductDaySales.css';
 
 
@@ -34,6 +37,7 @@ export default class ProductDaySales extends Component {
     componentDidMount(){
         
         let localStorageDB = new LocalStorageHandler();
+
 
         this.setState({
             product_array: localStorageDB.getProducts()
@@ -68,6 +72,18 @@ export default class ProductDaySales extends Component {
 
     }//end of clickDagEvent()--------------------------------------------------------------------
 
+    onProductSelectChange = (e) => {
+        //e.target.selectedIndex
+        let chosen_product_id = e.target.value;
+        let t_index = this.state.product_array.findIndex((obj => obj.p_id === chosen_product_id));
+        let t_product = this.state.product_array[t_index];
+
+        console.log(`click ${t_product.p_name}`);
+
+        //console.log(`click ${e.options[e.target.selectedIndex].value}`);
+        //let t = e.options[0].value;
+    }
+
     render() {
 
         
@@ -82,7 +98,7 @@ export default class ProductDaySales extends Component {
                 <hr/>
                 <div className="div_inner">
                 <h3>Lägg till såld produkt</h3>
-                <SelectProductSails product_array={this.state.product_array} />
+                <SelectProductSails product_array={this.state.product_array} onProductSelectChange={this.onProductSelectChange} />
                 </div>
                 <hr/>
 

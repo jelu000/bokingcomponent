@@ -35,13 +35,17 @@ export default class ProductDaySales extends Component {
     }
 
     componentDidMount(){
+
+        let today_date = new Date();
         
         let localStorageDB = new LocalStorageHandler();
-
+        //let table_arr = localStorageDB.getProductDaySales()
 
         this.setState({
-            product_array: localStorageDB.getProducts()
-            
+            valtDatum: today_date, //Sätter färg för valt datum i calender Format: Tue Oct 26 2021 12:00:00 GMT+0200 (centraleuropeisk sommartid)
+            valtDatumTextfelt: today_date.toLocaleDateString(),
+            product_array: localStorageDB.getProducts(),
+            product_daysale_array: localStorageDB.getProductDaySales(today_date.toLocaleDateString()) 
         });
     }
 
@@ -61,13 +65,14 @@ export default class ProductDaySales extends Component {
     //clickDagEvent() - för calender-----------------------------------------------------------------------
     async clickDagEvent(dag){
         let t_dag = dag.toLocaleDateString();
-        let localStorageDB = await new LocalStorageHandler();
+        let localStorageDB = new LocalStorageHandler();
 
         console.log(`Datum ${t_dag}`)
 
         await this.setState({
             valtDatum: dag,
-            valtDatumTextfelt: t_dag
+            valtDatumTextfelt: t_dag,
+            product_daysale_array: localStorageDB.getProductDaySales(t_dag)
         });
 
     }//end of clickDagEvent()--------------------------------------------------------------------
@@ -79,6 +84,22 @@ export default class ProductDaySales extends Component {
         let t_product = this.state.product_array[t_index];
 
         console.log(`click ${t_product.p_name}`);
+        let t_array = this.state.product_daysale_array;
+
+        
+        let localStorageDB = new LocalStorageHandler();
+        let t_arraydaysales = [];
+        t_arraydaysales = localStorageDB.addProductDaySale(false, this.state.valtDatumTextfelt, t_product);
+        
+        this.setState({
+            product_daysale_array: t_arraydaysales
+        });
+        
+        //let product_day_sale = new ProductDaySale(this.state.valtDatumTextfelt,)
+
+        //this.setState({
+            //product_daysale_array: [...this.state.product_daysale_array,]
+        //});
 
         //console.log(`click ${e.options[e.target.selectedIndex].value}`);
         //let t = e.options[0].value;

@@ -1,5 +1,6 @@
 //import Bokning from "./Bokning";
 import Treatment from "./behandlingar/Treatment";
+import ProductDaySale from "./productsdaysales/ProductDaySale";
 //LocalStorageHandler simulerar Databas för åtkomst REST api
 
 export default class LocalStorageHandler {
@@ -280,16 +281,64 @@ export default class LocalStorageHandler {
 
 
     }
+//PRODUCTDAYSALES-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------
 //ProductDaySale
+//IN: babs, transactiondate, Product
+//UT: array ProductDaySale
 //-----------------------------------------------------------------------------------------------------
-addProductDaySale(new_productdaysale){
+sortProductSaleArray = (element_a, element_b) => {
+    let ea = element_a.pd_name.toLowerCase();
+    let eb = element_b.pd_name.toLowerCase();
+
+    if (ea < eb){
+      return -1;
+    }
+    if (ea > eb){
+      return 1;
+    }
+    return 0;    
+}
+
+getProductDaySales(datum){
+
+    let productday_string = "[]";
+    let productday_array = [];
+
+    let productday_array_date = [];    
+    
+    if ( localStorage.getItem(this.key_productdaysale) !== null ){
+        productday_string = localStorage.getItem(this.key_productdaysale);
+    }
+
+    try {
+        //console.log(`addProductDaySale ${produkts_string} `)
+        productday_array = productday_array = JSON.parse(productday_string);
+        //console.log(`addProduct ${JSON.stringify(produkt_array)} `)
+        productday_array_date = productday_array.filter( (dayobj) => {
+            return datum === dayobj.pd_date;
+        });
+    }
+    catch (e){
+        console.log(e);
+    }
+    //Sorterar på namn
+    productday_array_date.sort(this.sortProductSaleArray);
+    
+    return productday_array_date;
+}
+
+
+addProductDaySale(temp_babs, temp_date, new_product){
     let productday_string = "[]";
     let productday_array = [];
 
     //Add id to new_product
-    let p_id = Date.now();
-    new_productdaysale.p_id = p_id.toString();
+    let pd_id = Date.now();
+    //new_product.p_id = p_id.toString();
+
+    let new_productdaysale = new ProductDaySale(temp_date, pd_id, new_product.p_name, new_product.p_size, new_product.p_price, temp_babs, new_product.p_id );
+
     
     if ( localStorage.getItem(this.key_productdaysale) !== null ){
         productday_string = localStorage.getItem(this.key_productdaysale);
@@ -297,6 +346,8 @@ addProductDaySale(new_productdaysale){
     }
 
     try {
+
+
         //console.log(`addProductDaySale ${produkts_string} `)
         productday_array = JSON.parse(productday_string);
         //console.log(`addProduct ${JSON.stringify(produkt_array)} `)
@@ -308,10 +359,12 @@ addProductDaySale(new_productdaysale){
         console.log(e);
     }
 
-    productday_array.sort(this.sortProductName);
     
-    return productday_array;
+    
+    return this.getProductDaySales(temp_date);
 }
+
+
 
     
 

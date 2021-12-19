@@ -7,3 +7,36 @@ h3{
 #valt_datum{
     margin-top: 30px;
 }
+#product_salestable{
+    width: 600px;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+#pd_namn{
+    width: 250px;
+    
+}
+#pd_storlek{
+    width: 50px;
+}
+#pd_pris{
+    width: 50px;
+    
+}
+#pd_babs{
+    width: 40px;
+    
+}
+#pd_id{
+    width: 150px;
+    
+}
+#pd_del{
+    width: 60px;
+    
+}
+.tableinputs{
+    margin: 0px;
+    width: 100%;
+    
+}

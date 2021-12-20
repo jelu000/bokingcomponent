@@ -3,7 +3,7 @@ import React from 'react'
 export default function TableProductDaySales(props) {
 
     let productarray = props.productarray_prop;
-    let crossmark = ' \u274c '; 
+    let babsmark = ' \u274c '; 
 
     
 
@@ -23,18 +23,23 @@ export default function TableProductDaySales(props) {
         console.log(`daySaleChange: ${evt.target.value}`);
     }
 
-   
-        let tablebody = productarray.map( (productobject, i) => {
+
+    
+    let tablebody = productarray.map( (productobject, i) => {
             
+        if (productobject.pd_babs)
+            babsmark = ' \u2713 '; 
+        else
+        babsmark = ' \u274c '; 
             return (   
                 
                     <tr className="producttable" id={i}  key={i}>
-                        <td className="" data-title="p_name"><input onChange={daySaleChangeName} className="tableinputs" type="text" value={productobject.pd_name} /></td>
-                        <td className="" data-title="p_size"><input className="tableinputs" onChange={daySaleChangeSize} type="text" value={productobject.pd_size} /></td>
-                        <td className="" data-title="p_price"><input className="tableinputs" onChange={daySaleChangePrice} type="text" value={productobject.pd_price} /></td>
-                        <td className="" data-title="p_babs"><input className="tableinputs" onChange={daySaleChangeBabs} type="checkbox" value={productobject.pd_babs} /></td>
-                        <td className="" data-title="pd_id">{productobject.pd_id}</td>
-                        <td className="" data-title="del"><button className="tableinputs" onClick={daySaleChangeButt} value=""> {crossmark} </button></td>
+                        <td className="td_name" data-title="p_name">{productobject.pd_name}</td>
+                        <td className="td_size" data-title="p_size">{productobject.pd_size}</td>
+                        <td className="td_price" data-title="p_price">{productobject.pd_price}</td>
+                        <td className="td_babs" data-title="p_babs">{babsmark}</td>
+                        <td className="td_pd_id" data-title="pd_id">{productobject.pd_id}</td>
+                        <td className="td_butt" data-title="del"><button className="tableinputs" onClick={daySaleChangeButt} value=""> { "\u2713"} </button></td>
                        
                     </tr>
                 
@@ -54,7 +59,7 @@ export default function TableProductDaySales(props) {
                         <th className="" id="pd_pris">Pris</th>
                         <th className="" id="pd_babs">Swish</th>
                         <th className="" id="pd_id">Id</th>
-                        <th className="" id="pd_del">Delete</th>
+                        <th className="" id="pd_del">Välj</th>
                         
                     </tr>
                 </thead>

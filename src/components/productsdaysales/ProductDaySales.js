@@ -28,7 +28,11 @@ export default class ProductDaySales extends Component {
            tidtim: '8',
            tidmin: '00',
            product_array: [],
-           product_daysale_array: [] 
+           product_daysale_array: [],
+           selected_product: {},
+
+           textinput_name: ""
+
         }
 
         this.clickDagEvent = this.clickDagEvent.bind(this);
@@ -39,7 +43,7 @@ export default class ProductDaySales extends Component {
         let today_date = new Date();
         
         let localStorageDB = new LocalStorageHandler();
-        //let table_arr = localStorageDB.getProductDaySales()
+        
 
         this.setState({
             valtDatum: today_date, //Sätter färg för valt datum i calender Format: Tue Oct 26 2021 12:00:00 GMT+0200 (centraleuropeisk sommartid)
@@ -57,28 +61,29 @@ export default class ProductDaySales extends Component {
 
         });
         
-        //clearTextFields()
+        
 
-    }//end of clickMonthChange()-------------------------------------------------------------
+    } //end of clickMonthChange()-------------------------------------------------------------
 
+    //---------------clearTextFields()
     
     //clickDagEvent() - för calender-----------------------------------------------------------------------
-    async clickDagEvent(dag){
+    clickDagEvent(dag){
         let t_dag = dag.toLocaleDateString();
         let localStorageDB = new LocalStorageHandler();
 
         console.log(`Datum ${t_dag}`)
 
-        await this.setState({
+         this.setState({
             valtDatum: dag,
             valtDatumTextfelt: t_dag,
             product_daysale_array: localStorageDB.getProductDaySales(t_dag)
         });
 
-    }//end of clickDagEvent()--------------------------------------------------------------------
+    } //end of clickDagEvent()--------------------------------------------------------------------
 
-    onProductSelectChange = (e) => {
-        //e.target.selectedIndex
+    onProductSelectChange = async (e) => {
+        
         let chosen_product_id = e.target.value;
         let t_index = this.state.product_array.findIndex((obj => obj.p_id === chosen_product_id));
         let t_product = this.state.product_array[t_index];
@@ -89,9 +94,10 @@ export default class ProductDaySales extends Component {
         
         let localStorageDB = new LocalStorageHandler();
         let t_arraydaysales = [];
-        t_arraydaysales = localStorageDB.addProductDaySale(false, this.state.valtDatumTextfelt, t_product);
+        t_arraydaysales =  await localStorageDB.addProductDaySale(false, this.state.valtDatumTextfelt, t_product);
         
         this.setState({
+            selected_product: t_product, 
             product_daysale_array: t_arraydaysales
         });
         
@@ -105,29 +111,39 @@ export default class ProductDaySales extends Component {
         //let t = e.options[0].value;
     }
 
-    render() {
+    onInputNameText = (ev) => {
+        this.setState({ textinput_name: ev.target.value });
+        console.log(ev.target.value);
+    }
 
-        
+    render() {
 
         return (
             <div className="MainBokingDiv" >
                 <h1 className="h1_header">Produktförsäljning</h1>
-
+                
                 <SweCalenderLang id="swekalender" valtdatum={this.state.valtDatum} onDayClickEvent={this.clickDagEvent} onMonthChangeEvent={this.clickMonthChange}/>
                 Datum: <input type="date" id="valt_datum" value={this.state.valtDatumTextfelt} readOnly/>
+                
+                
+                
+                <hr/>
+                <div className="div_inner">
+                    <h3>Lägg till såld produkt</h3>
+                    <SelectProductSails product_array={this.state.product_array} onProductSelectChange={this.onProductSelectChange} />
+
+                    Namn:<input type="text" id="textinput_name" value={this.state.textinput_name} onChange={this.onInputNameText} />
+                
+                
+                </div>
+                <hr/>
+
+                <div className="div_inner">
+                    <h3>produktförsäljning {this.state.valtDatumTextfelt}</h3>
+                    <TableProductDaySales productarray_prop={this.state.product_daysale_array} />
+                
+                </div>
                
-                <hr/>
-                <div className="div_inner">
-                <h3>Lägg till såld produkt</h3>
-                <SelectProductSails product_array={this.state.product_array} onProductSelectChange={this.onProductSelectChange} />
-                </div>
-                <hr/>
-
-                <div className="div_inner">
-                <h3>produktförsäljning {this.state.valtDatumTextfelt}</h3>
-
-                <TableProductDaySales productarray_prop={this.state.product_daysale_array} />
-                </div>
                 
             </div>
         )

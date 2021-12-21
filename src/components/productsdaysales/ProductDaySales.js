@@ -31,7 +31,11 @@ export default class ProductDaySales extends Component {
            product_daysale_array: [],
            selected_product: {},
 
-           textinput_name: ""
+           textinput_name: "",
+           textinput_size: "",
+           textinput_price: "",
+           checkbox_babs: false,
+           textinput_pd_id: ""
 
         }
 
@@ -115,6 +119,22 @@ export default class ProductDaySales extends Component {
         this.setState({ textinput_name: ev.target.value });
         console.log(ev.target.value);
     }
+    onInputSizeText = (ev) => {
+        this.setState({ textinput_name: ev.target.value });
+        console.log(ev.target.value);
+    }
+    onInputPriceText = (ev) => {
+        this.setState({ textinput_name: ev.target.value });
+        console.log(ev.target.value);
+    }
+    onInputPdIdText = (ev) => {
+        this.setState({ textinput_name: ev.target.value });
+        console.log(ev.target.value);
+    }
+    onInputBabsCheck = (ev) => {
+        this.setState({ textinput_name: ev.target.value });
+        console.log(ev.target.value);
+    }
 
     render() {
 
@@ -133,8 +153,15 @@ export default class ProductDaySales extends Component {
                     <SelectProductSails product_array={this.state.product_array} onProductSelectChange={this.onProductSelectChange} />
 
                     Namn:<input type="text" id="textinput_name" value={this.state.textinput_name} onChange={this.onInputNameText} />
-                
-                
+                    <br />
+                    Pris:<input type="text" id="textinput_price" value={this.state.textinput_price} onChange={this.onInputPriceText} />
+                    
+                    Volym:<input type="text" id="textinput_size" value={this.state.textinput_size} onChange={this.onInputSizeText} />
+                    <br />
+                    Swish:<input type="checkbox" value={this.state.checkbox_babs} onChange={this.onInputBabsCheck} />
+                    Id:<input type="text" id="textinput_id" value={this.state.textinput_pd_id} onChange={this.onInputBabsCheck} />
+
+
                 </div>
                 <hr/>
 

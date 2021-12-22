@@ -287,84 +287,111 @@ export default class LocalStorageHandler {
 //IN: babs, transactiondate, Product
 //UT: array ProductDaySale
 //-----------------------------------------------------------------------------------------------------
-sortProductSaleArray = (element_a, element_b) => {
-    let ea = element_a.pd_name.toLowerCase();
-    let eb = element_b.pd_name.toLowerCase();
+    sortProductSaleArray = (element_a, element_b) => {
+        let ea = element_a.pd_name.toLowerCase();
+        let eb = element_b.pd_name.toLowerCase();
 
-    if (ea < eb){
-      return -1;
-    }
-    if (ea > eb){
-      return 1;
-    }
-    return 0;    
-}
-
-getProductDaySales(datum){
-
-    let productday_string = "[]";
-    let productday_array = [];
-
-    let productday_array_date = [];    
-    
-    if ( localStorage.getItem(this.key_productdaysale) !== null ){
-        productday_string = localStorage.getItem(this.key_productdaysale);
+        if (ea < eb){
+        return -1;
+        }
+        if (ea > eb){
+        return 1;
+        }
+        return 0;    
     }
 
-    try {
-        //console.log(`addProductDaySale ${produkts_string} `)
-        productday_array = productday_array = JSON.parse(productday_string);
-        //console.log(`addProduct ${JSON.stringify(produkt_array)} `)
-        productday_array_date = productday_array.filter( (dayobj) => {
-            return datum === dayobj.pd_date;
-        });
-    }
-    catch (e){
-        console.log(e);
-    }
-    //Sorterar på namn
-    productday_array_date.sort(this.sortProductSaleArray);
-    
-    return productday_array_date;
-}
+    getProductDaySales(datum){
 
+        let productday_string = "[]";
+        let productday_array = [];
 
-addProductDaySale(temp_babs, temp_date, new_product){
-    let productday_string = "[]";
-    let productday_array = [];
+        let productday_array_date = [];    
+        
+        if ( localStorage.getItem(this.key_productdaysale) !== null ){
+            productday_string = localStorage.getItem(this.key_productdaysale);
+        }
 
-    //Add id to new_product
-    let pd_id = Date.now();
-    //new_product.p_id = p_id.toString();
-
-    let new_productdaysale = new ProductDaySale(temp_date, pd_id, new_product.p_name, new_product.p_size, new_product.p_price, temp_babs, new_product.p_id );
-
-    
-    if ( localStorage.getItem(this.key_productdaysale) !== null ){
-        productday_string = localStorage.getItem(this.key_productdaysale);
-
+        try {
+            //console.log(`addProductDaySale ${produkts_string} `)
+            productday_array = productday_array = JSON.parse(productday_string);
+            //console.log(`addProduct ${JSON.stringify(produkt_array)} `)
+            productday_array_date = productday_array.filter( (dayobj) => {
+                return datum === dayobj.pd_date;
+            });
+        }
+        catch (e){
+            console.log(e);
+        }
+        //Sorterar på namn------------------------------------------------------------------------------------------
+    //productday_array_date.sort(this.sortProductSaleArray);
+        
+        return productday_array_date;
     }
 
-    try {
+
+    addProductDaySale(temp_babs, temp_date, new_product){
+        let productday_string = "[]";
+        let productday_array = [];
+
+        //Add id to new_product
+        let temp_id = Date.now();
+        let pd_id = temp_id.toString();
+
+        let new_productdaysale = new ProductDaySale(temp_date, pd_id, new_product.p_name, new_product.p_size, new_product.p_price, temp_babs, new_product.p_id );
+
+        
+        if ( localStorage.getItem(this.key_productdaysale) !== null ){
+            productday_string = localStorage.getItem(this.key_productdaysale);
+
+        }
+
+        try {
 
 
-        //console.log(`addProductDaySale ${produkts_string} `)
-        productday_array = JSON.parse(productday_string);
-        //console.log(`addProduct ${JSON.stringify(produkt_array)} `)
-        productday_array.push(new_productdaysale);
-        localStorage.setItem(this.key_productdaysale, JSON.stringify(productday_array));
+            //console.log(`addProductDaySale ${produkts_string} `)
+            productday_array = JSON.parse(productday_string);
+            //console.log(`addProduct ${JSON.stringify(produkt_array)} `)
+            productday_array.push(new_productdaysale);
+            localStorage.setItem(this.key_productdaysale, JSON.stringify(productday_array));
+
+        }
+        catch (e){
+            console.log(e);
+        }
+
+        
+        
+        return this.getProductDaySales(temp_date);
+    }
+
+    getDaySaleProduct(pd_id){
+
+        //console.log(`getDaySaleProduct: ${pd_id}`)
+
+        let produktsDaySale_string = "[]";
+        let produktDaySale_array = [];
+
+        if ( localStorage.getItem(this.key_productdaysale) !== null ){
+            produktsDaySale_string = localStorage.getItem(this.key_productdaysale);
+            //console.log(produktsDaySale_string)
+        }
+
+        try {
+           produktDaySale_array = JSON.parse(produktsDaySale_string);
+        }
+        catch (e){
+            console.log(e);
+        }
+
+        //console.log(`Uppdatera index plats: ${produktDaySale_array.length}`);
+         //Hitta  index nummer för vald produkt     
+         let t_index = produktDaySale_array.findIndex((obj => obj.pd_id === pd_id));
+
+         //console.log(`Uppdatera index plats: ${t_index}`);
+         //Tilldelar index i array till de uppdaterade boknings objektet
+         return produktDaySale_array[t_index];
 
     }
-    catch (e){
-        console.log(e);
-    }
-
-    
-    
-    return this.getProductDaySales(temp_date);
-}
-
-
 
     
 

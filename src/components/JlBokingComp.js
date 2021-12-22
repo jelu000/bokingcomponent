@@ -470,8 +470,8 @@ createBokingTables(){
             <div>Namn:<input tabIndex="8" type="text" id="textfelt_namn" /></div>
             <div>Tel:<input tabIndex="9" type="text" id="textfelt_tel"/></div>
             <div>
-                  <input tabIndex="10" onClick={this.clickBoka} type="button" value="Boka"/>
-                  <input tabIndex="11" onClick={this.clickAvbokaEvt} type="button" value="AvBoka"/>
+                  <input tabIndex="10" className='b_button' onClick={this.clickBoka} type="button" value="Boka"/>
+                  <input tabIndex="11" className='b_button' onClick={this.clickAvbokaEvt} type="button" value="AvBoka"/>
                   id:<input type="text" size="20" readOnly value={this.state.state_bokningsId} />
             </div>
           </div>

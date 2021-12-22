@@ -44,3 +44,9 @@ h3{
 .td_babs{
   text-align: center;  
 }
+.b_button{
+    font-size: medium;
+    padding: 3px;
+    margin: 10px;
+    
+}

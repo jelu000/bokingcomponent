@@ -19,9 +19,9 @@ export default function TableProductDaySales(props) {
     let daySaleChangeBabs = (evt) => {
         console.log(`daySaleChange: ${evt.target.value}`);
     }
-    let daySaleChangeButt = (evt) => {
-        console.log(`daySaleChange: ${evt.target.value}`);
-    }
+    
+        
+    
 
 
     
@@ -39,7 +39,7 @@ export default function TableProductDaySales(props) {
                         <td className="td_price" data-title="p_price">{productobject.pd_price}</td>
                         <td className="td_babs" data-title="p_babs">{babsmark}</td>
                         <td className="td_pd_id" data-title="pd_id">{productobject.pd_id}</td>
-                        <td className="td_butt" data-title="del"><button className="tableinputs" onClick={daySaleChangeButt} value=""> { "\u2713"} </button></td>
+                        <td className="td_butt" data-title="del"><button className="tableinputs" onClick={props.onTableButtClick} value={productobject.pd_id}> { "\u2713"} </button></td>
                        
                     </tr>
                 

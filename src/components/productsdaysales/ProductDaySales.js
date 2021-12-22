@@ -96,13 +96,18 @@ export default class ProductDaySales extends Component {
         let t_array = this.state.product_daysale_array;
 
         
-        let localStorageDB = new LocalStorageHandler();
-        let t_arraydaysales = [];
-        t_arraydaysales =  await localStorageDB.addProductDaySale(false, this.state.valtDatumTextfelt, t_product);
+        //let localStorageDB = new LocalStorageHandler();
+        //let t_arraydaysales = [];
+        //t_arraydaysales =  await localStorageDB.addProductDaySale(false, this.state.valtDatumTextfelt, t_product);
         
         this.setState({
             selected_product: t_product, 
-            product_daysale_array: t_arraydaysales
+            //product_daysale_array: t_arraydaysales,
+            textinput_name: t_product.p_name,
+            textinput_size: t_product.p_size,
+            textinput_price: t_product.p_price
+        
+           
         });
         
         //let product_day_sale = new ProductDaySale(this.state.valtDatumTextfelt,)
@@ -120,22 +125,93 @@ export default class ProductDaySales extends Component {
         console.log(ev.target.value);
     }
     onInputSizeText = (ev) => {
-        this.setState({ textinput_name: ev.target.value });
+        if (isNaN(ev.target.value)){
+            alert("Endast siffror tillåtna!")
+        }
+        else {
+            this.setState({ textinput_size: ev.target.value });
+        }
         console.log(ev.target.value);
     }
     onInputPriceText = (ev) => {
-        this.setState({ textinput_name: ev.target.value });
+        if (isNaN(ev.target.value)){
+            alert("Endast siffror tillåtna!")
+        }
+        else {
+            this.setState({ textinput_price: ev.target.value });
+        }
         console.log(ev.target.value);
     }
     onInputPdIdText = (ev) => {
-        this.setState({ textinput_name: ev.target.value });
+        this.setState({ textinput_pd_id: ev.target.value });
         console.log(ev.target.value);
     }
     onInputBabsCheck = (ev) => {
-        this.setState({ textinput_name: ev.target.value });
+        this.setState({ checkbox_babs: ev.target.value });
         console.log(ev.target.value);
     }
 
+    //-----------------------------------------------------------
+    onSaveButtClick = (ev) => {
+
+        
+        //Namnet får inte vara tomt
+        if (this.state.textinput_name !== "" ){
+            //ny post
+            if (this.state.textinput_pd_id === ""){
+                let localStorageDB = new LocalStorageHandler();
+                let t_arraydaysales = [];
+                
+                let t_product = new Product(this.state.selected_product.p_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price );
+                
+                t_arraydaysales = localStorageDB.addProductDaySale(this.state.checkbox_babs, this.state.valtDatumTextfelt, t_product);
+                
+                this.setState({ 
+                    product_daysale_array: t_arraydaysales
+                    
+                
+                
+                });
+            }
+            //updatera post
+            else{
+
+            }
+
+        }
+        else{
+            alert( "Namn och pris måste finnas!")
+        }
+    }
+
+    onDelButtClick = (ev) => {
+    
+    
+    }
+//----------------------------------------------------------------------------------------
+    onTableButtClick = (ev) => {
+        let daysale_pd_id = ev.target.value;
+        console.log(`onTableButtClick: ${daysale_pd_id}`);
+
+
+        let product_daysale_object = {};
+        let localStorageDB = new LocalStorageHandler();
+        
+        product_daysale_object = localStorageDB.getDaySaleProduct(daysale_pd_id);
+
+
+        this.setState({
+            textinput_name: product_daysale_object.pd_name,
+            textinput_size: product_daysale_object.pd_size,
+            textinput_price: product_daysale_object.pd_price,
+            checkbox_babs: product_daysale_object.pd_babs,
+            textinput_pd_id: product_daysale_object.pd_id
+
+        });
+
+        console.log(`onTableButtClick: ${daysale_pd_id} object: ${product_daysale_object.pd_name}`);
+    
+    }
     render() {
 
         return (
@@ -160,14 +236,15 @@ export default class ProductDaySales extends Component {
                     <br />
                     Swish:<input type="checkbox" value={this.state.checkbox_babs} onChange={this.onInputBabsCheck} />
                     Id:<input type="text" id="textinput_id" value={this.state.textinput_pd_id} onChange={this.onInputBabsCheck} />
-
+                    <br />
+                    <button className='b_button' onClick={this.onSaveButtClick}>Spara</button> <button className='p_button'>Tabort</button>
 
                 </div>
                 <hr/>
 
                 <div className="div_inner">
                     <h3>produktförsäljning {this.state.valtDatumTextfelt}</h3>
-                    <TableProductDaySales productarray_prop={this.state.product_daysale_array} />
+                    <TableProductDaySales onTableButtClick={this.onTableButtClick} productarray_prop={this.state.product_daysale_array} />
                 
                 </div>
                

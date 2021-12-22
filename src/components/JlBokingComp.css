@@ -79,6 +79,10 @@ th, td {
   font-weight: bolder;
   font-size: larger;
 }
+.b_button{
+  font-size: medium;
+    padding: 3px;
+}
 /*@media  screen and (max-width: 780px){
   .MainBokingDiv{
     

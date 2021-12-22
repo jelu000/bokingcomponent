@@ -393,6 +393,28 @@ export default class LocalStorageHandler {
 
     }
 
+    delProductDaySale(pd_id){
+        console.log(`pd_id ${pd_id}`);
+
+        let produktsDaySale_string = "[]";
+        let produktDaySale_array = [];
+
+        if ( localStorage.getItem(this.key_productdaysale) !== null ){
+            produktsDaySale_string = localStorage.getItem(this.key_productdaysale);
+            console.log(produktsDaySale_string)
+        }
+
+        try {
+            produktDaySale_array = JSON.parse(produktsDaySale_string);
+            produktDaySale_array = produktDaySale_array.filter( prodsale_obj =>  prodsale_obj.pd_id !== pd_id);
+         }
+         catch (e){
+             console.log(e);
+         }
+         
+         return produktDaySale_array;
+    }
+
     
 
 }

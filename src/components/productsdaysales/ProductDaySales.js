@@ -175,7 +175,7 @@ export default class ProductDaySales extends Component {
             }
             //updatera post
             else{
-
+                alert(" Inget ID anget!")
             }
 
         }
@@ -185,7 +185,29 @@ export default class ProductDaySales extends Component {
     }
 
     onDelButtClick = (ev) => {
-    
+        console.log(`textinput_pd_id ${this.state.textinput_pd_id}`);
+        if (this.state.textinput_pd_id !== ""){
+            let localStorageDB = new LocalStorageHandler();
+            let t_arraydaysales = [];
+            
+        
+            t_arraydaysales = localStorageDB.delProductDaySale(this.state.textinput_pd_id);
+            
+            this.setState({ 
+                product_daysale_array: t_arraydaysales,
+                //tömmer textfelt
+                textinput_name: "",
+                textinput_pd_id: "",
+                textinput_price: "",
+                textinput_size: ""
+
+            
+            });
+        }
+        //updatera post
+        else{
+            alert(" Inget ID anget!")
+        }
     
     }
 //----------------------------------------------------------------------------------------
@@ -237,7 +259,7 @@ export default class ProductDaySales extends Component {
                     Swish:<input type="checkbox" value={this.state.checkbox_babs} onChange={this.onInputBabsCheck} />
                     Id:<input type="text" id="textinput_id" value={this.state.textinput_pd_id} onChange={this.onInputBabsCheck} />
                     <br />
-                    <button className='b_button' onClick={this.onSaveButtClick}>Spara</button> <button className='p_button'>Tabort</button>
+                    <button className='b_button' onClick={this.onSaveButtClick}>Spara</button> <button className='p_button' onClick={this.onDelButtClick}>Tabort</button>
 
                 </div>
                 <hr/>

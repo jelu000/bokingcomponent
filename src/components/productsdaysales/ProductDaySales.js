@@ -4,7 +4,7 @@ import SweCalenderLang from "../SweCalenderLang";
 import LocalStorageHandler from '../LocalStorageHandler';
 import SelectProductSails from './SelectProductSails';
 import TableProductDaySales from './TableProductDaySales';
-import ProductDaySale from './ProductDaySale';
+//import ProductDaySale from './ProductDaySale';
 import Product from '../produkter/Product';
 
 import './ProductDaySales.css';
@@ -61,7 +61,13 @@ export default class ProductDaySales extends Component {
      clickMonthChange = (month) => {
         console.log(`månad: ${month}`);
         this.setState({
-            selectedDay: month.toLocaleDateString()
+            selectedDay: month.toLocaleDateString(),
+            //tömmer textfelt
+            textinput_name: "",
+            textinput_pd_id: "",
+            textinput_price: "",
+            textinput_size: "",
+            checkbox_babs: Boolean
 
         });
         
@@ -81,7 +87,13 @@ export default class ProductDaySales extends Component {
          this.setState({
             valtDatum: dag,
             valtDatumTextfelt: t_dag,
-            product_daysale_array: localStorageDB.getProductDaySales(t_dag)
+            product_daysale_array: localStorageDB.getProductDaySales(t_dag),
+            //tömmer textfelt
+            textinput_name: "",
+            textinput_pd_id: "",
+            textinput_price: "",
+            textinput_size: "",
+            checkbox_babs: false
         });
 
     } //end of clickDagEvent()--------------------------------------------------------------------
@@ -93,7 +105,7 @@ export default class ProductDaySales extends Component {
         let t_product = this.state.product_array[t_index];
 
         console.log(`click ${t_product.p_name}`);
-        let t_array = this.state.product_daysale_array;
+        //let t_array = this.state.product_daysale_array;
 
         
         //let localStorageDB = new LocalStorageHandler();
@@ -147,9 +159,13 @@ export default class ProductDaySales extends Component {
         console.log(ev.target.value);
     }
     onInputBabsCheck = (ev) => {
-        this.setState({ checkbox_babs: ev.target.value });
+        
+        let t_checked = !this.state.checkbox_babs;
+        this.setState({ checkbox_babs: t_checked });
         console.log(ev.target.value);
     }
+
+     
 
     //-----------------------------------------------------------
     onSaveButtClick = (ev) => {
@@ -157,26 +173,33 @@ export default class ProductDaySales extends Component {
         
         //Namnet får inte vara tomt
         if (this.state.textinput_name !== "" ){
+            let t_arraydaysales = [];
             //ny post
             if (this.state.textinput_pd_id === ""){
+                
                 let localStorageDB = new LocalStorageHandler();
-                let t_arraydaysales = [];
-                
+               
                 let t_product = new Product(this.state.selected_product.p_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price );
-                
                 t_arraydaysales = localStorageDB.addProductDaySale(this.state.checkbox_babs, this.state.valtDatumTextfelt, t_product);
-                
-                this.setState({ 
-                    product_daysale_array: t_arraydaysales
-                    
-                
-                
-                });
+                                
             }
             //updatera post
             else{
-                alert(" Inget ID anget!")
+                
+                let localStorageDB = new LocalStorageHandler();
+                t_arraydaysales =  localStorageDB.updateDaySaleProduct(this.state.textinput_pd_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price, this.state.checkbox_babs)
             }
+
+            this.setState({ 
+                product_daysale_array: t_arraydaysales,
+                 //tömmer textfelt
+                 textinput_name: "",
+                 textinput_pd_id: "",
+                 textinput_price: "",
+                 textinput_size: "",
+                 checkbox_babs: false
+            
+            });
 
         }
         else{
@@ -200,7 +223,6 @@ export default class ProductDaySales extends Component {
                 textinput_pd_id: "",
                 textinput_price: "",
                 textinput_size: ""
-
             
             });
         }
@@ -211,18 +233,19 @@ export default class ProductDaySales extends Component {
     
     }
 //----------------------------------------------------------------------------------------
-    onTableButtClick = (ev) => {
+    onTableButtClick = async (ev) => {
         let daysale_pd_id = ev.target.value;
-        console.log(`onTableButtClick: ${daysale_pd_id}`);
+        //console.log(`onTableButtClick: ${daysale_pd_id}`);
 
 
         let product_daysale_object = {};
         let localStorageDB = new LocalStorageHandler();
         
-        product_daysale_object = localStorageDB.getDaySaleProduct(daysale_pd_id);
+        product_daysale_object = await localStorageDB.getDaySaleProduct(daysale_pd_id);
 
+        console.log(`onTableButtClick ${product_daysale_object.pd_babs}`)
 
-        this.setState({
+         this.setState({
             textinput_name: product_daysale_object.pd_name,
             textinput_size: product_daysale_object.pd_size,
             textinput_price: product_daysale_object.pd_price,
@@ -231,7 +254,7 @@ export default class ProductDaySales extends Component {
 
         });
 
-        console.log(`onTableButtClick: ${daysale_pd_id} object: ${product_daysale_object.pd_name}`);
+        //console.log(`onTableButtClick: ${daysale_pd_id} object: ${product_daysale_object.pd_name}`);
     
     }
     render() {
@@ -256,7 +279,7 @@ export default class ProductDaySales extends Component {
                     
                     Volym:<input type="text" id="textinput_size" value={this.state.textinput_size} onChange={this.onInputSizeText} />
                     <br />
-                    Swish:<input type="checkbox" value={this.state.checkbox_babs} onChange={this.onInputBabsCheck} />
+                    Swish:<input type="checkbox" checked={this.state.checkbox_babs}  onChange={this.onInputBabsCheck} />
                     Id:<input type="text" id="textinput_id" value={this.state.textinput_pd_id} onChange={this.onInputBabsCheck} />
                     <br />
                     <button className='b_button' onClick={this.onSaveButtClick}>Spara</button> <button className='p_button' onClick={this.onDelButtClick}>Tabort</button>

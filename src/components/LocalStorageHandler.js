@@ -264,7 +264,7 @@ export default class LocalStorageHandler {
         let products_json = localStorage.getItem(this.key_products);
          let product_array_obj = JSON.parse(products_json);
 
-          //Hitta  index nummer för valt produkt-id     
+        //Hitta  index nummer för valt produkt-id     
         let t_index = product_array_obj.findIndex((obj => obj.p_id === p_id));
 
         
@@ -364,6 +364,35 @@ export default class LocalStorageHandler {
         return this.getProductDaySales(temp_date);
     }
 
+    updateDaySaleProduct(pd_id, pd_name, pd_size, pd_price, pd_babs){
+        let productday_string = "[]";
+        let productday_array = [];
+
+        //let productday_array_date = [];    
+        
+        try {
+            productday_string = localStorage.getItem(this.key_productdaysale);
+            productday_array = JSON.parse(productday_string);
+            //Hitta  index nummer för valt produkt-id     
+            let t_index = productday_array.findIndex((obj => obj.pd_id === pd_id));
+
+        
+            //Tilldelar index i array till de uppdaterade produkt objektet
+            productday_array[t_index].pd_name = pd_name;
+            productday_array[t_index].pd_size = pd_size;
+            productday_array[t_index].pd_price = pd_price;
+            productday_array[t_index].pd_babs = pd_babs;
+            //Sparar ner de till LocalStorage
+            localStorage.setItem(this.key_productdaysale, JSON.stringify(productday_array));
+        }
+        catch (e){
+            console.log(e);
+        }
+
+        return productday_array;
+
+    }
+
     getDaySaleProduct(pd_id){
 
         //console.log(`getDaySaleProduct: ${pd_id}`)
@@ -384,11 +413,12 @@ export default class LocalStorageHandler {
         }
 
         //console.log(`Uppdatera index plats: ${produktDaySale_array.length}`);
-         //Hitta  index nummer för vald produkt     
-         let t_index = produktDaySale_array.findIndex((obj => obj.pd_id === pd_id));
+        //Hitta  index nummer för vald produkt     
+        let t_index = produktDaySale_array.findIndex((obj => obj.pd_id === pd_id));
+       
 
-         //console.log(`Uppdatera index plats: ${t_index}`);
-         //Tilldelar index i array till de uppdaterade boknings objektet
+        //console.log(`Uppdatera index plats: ${t_index}`);
+        //Tilldelar index i array till de uppdaterade boknings objektet
          return produktDaySale_array[t_index];
 
     }
@@ -407,7 +437,10 @@ export default class LocalStorageHandler {
         try {
             produktDaySale_array = JSON.parse(produktsDaySale_string);
             produktDaySale_array = produktDaySale_array.filter( prodsale_obj =>  prodsale_obj.pd_id !== pd_id);
-         }
+             //Sparar till LocalStorage
+            localStorage.setItem(this.key_productdaysale, JSON.stringify(produktDaySale_array));
+
+        }
          catch (e){
              console.log(e);
          }

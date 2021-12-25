@@ -22,21 +22,6 @@ export default function TableProductDaySales(props) {
     
   */      
     
-    let styleBabs = ( is_babs, babs_mark ) => {
-
-    
-        //let babsmarktrue = ' \u2713 '; 
-        //let babsmarkfalse = ' \u274c ';
-        
-        let p_style = {};
-
-        if (is_babs){
-            p_style = {color: "green"}
-        }
-
-        return ( <p style={p_style}>{babs_mark}</p>)
-    }
-
     
     let tablebody = productarray.map( (productobject, i) => {
             
@@ -50,7 +35,7 @@ export default function TableProductDaySales(props) {
                         <td className="td_name" data-title="p_name">{productobject.pd_name}</td>
                         <td className="td_size" data-title="p_size">{productobject.pd_size}</td>
                         <td className="td_price" data-title="p_price">{productobject.pd_price}</td>
-                        <td className="td_babs" data-title="p_babs">{styleBabs( productobject.pd_babs, babsmark)}</td>
+                        <td className="td_babs" style={ productobject.pd_babs ? {color: 'green', fontSize: 'x-large' } : {}} data-title="p_babs">{babsmark}</td>
                         <td className="td_pd_id" data-title="pd_id">{productobject.pd_id}</td>
                         <td className="td_butt" data-title="del"><button className="tableinputs" onClick={props.onTableButtClick} value={productobject.pd_id}> { "\u2713"} </button></td>
                        

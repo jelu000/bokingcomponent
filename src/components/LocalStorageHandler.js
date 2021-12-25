@@ -23,7 +23,8 @@ export default class LocalStorageHandler {
     
     }
 
-    
+//BOKINGS------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------    
 
     getBokingsDay(t_datum){
         //OBS! Denna JSON sträng kan inte vara tom för då funkar inte programmet först gången man startar det!! 
@@ -119,6 +120,8 @@ export default class LocalStorageHandler {
          localStorage.setItem(this.key, JSON.stringify(t_filtered_bokings));
          
     }
+//TREATMENTS-------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
 
     getTreatments(){
         
@@ -128,11 +131,16 @@ export default class LocalStorageHandler {
         return this.global_treatment_array;
         
     }
+//GETSAILDAY---------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
     getSailsDay(t_datum){
-        let t_products = []; 
+
+        let t_products = this.getProductDaySales(t_datum);
+
+        //let t_products = []; 
         
-        let t_product_1 = {
+        /*let t_product_1 = {
             id: "1",
             productname: "hjärtligt shampo",
             pris: "140",
@@ -147,10 +155,11 @@ export default class LocalStorageHandler {
 
         t_products.push(t_product_1);
         t_products.push(t_product_2);
-
+        */
         return t_products;
     }
-
+//PRODUCTS---------------------------------------------------------------------------
+//-----------------------------------------------------------------------
     sortProductName = (element_a, element_b) => {
         let ea = element_a.p_name.toLowerCase();
         let eb = element_b.p_name.toLowerCase();

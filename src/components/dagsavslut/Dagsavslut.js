@@ -100,10 +100,10 @@ Initate LocalStorage
 
         t_array.forEach( (obj) => {
         
-            if (obj.swish)
-                t_babs += parseInt(obj.pris);
+            if (obj.pd_babs)
+                t_babs += parseInt(obj.pd_price);
             else
-                t_kassa += parseInt(obj.pris);
+                t_kassa += parseInt(obj.pd_price);
         });
         t_totalt = t_babs + t_kassa;
         return {totalt: t_totalt, kassa: t_kassa, swish: t_babs };

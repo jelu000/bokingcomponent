@@ -117,7 +117,8 @@ export default class ProductDaySales extends Component {
             //product_daysale_array: t_arraydaysales,
             textinput_name: t_product.p_name,
             textinput_size: t_product.p_size,
-            textinput_price: t_product.p_price
+            textinput_price: t_product.p_price,
+            textinput_pd_id: ""
         
            
         });
@@ -173,11 +174,12 @@ export default class ProductDaySales extends Component {
         
         //Namnet får inte vara tomt
         if (this.state.textinput_name !== "" ){
+            let localStorageDB = new LocalStorageHandler();
             let t_arraydaysales = [];
             //ny post
             if (this.state.textinput_pd_id === ""){
                 
-                let localStorageDB = new LocalStorageHandler();
+                //let localStorageDB = new LocalStorageHandler();
                
                 let t_product = new Product(this.state.selected_product.p_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price );
                 t_arraydaysales = localStorageDB.addProductDaySale(this.state.checkbox_babs, this.state.valtDatumTextfelt, t_product);
@@ -186,12 +188,15 @@ export default class ProductDaySales extends Component {
             //updatera post
             else{
                 
-                let localStorageDB = new LocalStorageHandler();
+                //let localStorageDB = new LocalStorageHandler();
                 t_arraydaysales =  localStorageDB.updateDaySaleProduct(this.state.textinput_pd_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price, this.state.checkbox_babs)
             }
-
+            //Hämtar dagens försäljningsarray för att uppdatera tabellen
+            let temp_product_daysale_array = localStorageDB.getProductDaySales(this.state.valtDatumTextfelt);
+            
             this.setState({ 
-                product_daysale_array: t_arraydaysales,
+                //product_daysale_array: t_arraydaysales,
+                product_daysale_array: temp_product_daysale_array,
                  //tömmer textfelt
                  textinput_name: "",
                  textinput_pd_id: "",
@@ -258,6 +263,7 @@ export default class ProductDaySales extends Component {
     
     }
     render() {
+        console.log(this.state.textinput_pd_id);
 
         return (
             <div className="MainBokingDiv" >
@@ -280,7 +286,7 @@ export default class ProductDaySales extends Component {
                     Volym:<input type="text" id="textinput_size" value={this.state.textinput_size} onChange={this.onInputSizeText} />
                     <br />
                     Swish:<input type="checkbox" checked={this.state.checkbox_babs}  onChange={this.onInputBabsCheck} />
-                    Id:<input type="text" id="textinput_id" value={this.state.textinput_pd_id} onChange={this.onInputBabsCheck} />
+                    <input type="text" id="textinput_id" value={this.state.textinput_pd_id} onChange={this.onInputBabsCheck} />
                     <br />
                     <button className='b_button' onClick={this.onSaveButtClick}>Spara</button> <button className='p_button' onClick={this.onDelButtClick}>Tabort</button>
 

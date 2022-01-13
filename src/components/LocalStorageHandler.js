@@ -398,6 +398,8 @@ export default class LocalStorageHandler {
             console.log(e);
         }
 
+        //getProductDaySales(datum)
+        
         return productday_array;
 
     }

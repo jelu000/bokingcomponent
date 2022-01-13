@@ -36,6 +36,19 @@ h3{
     width: 60px;
     
 }
+#textinput_id{
+    display: none;
+    font-size: medium;
+    width: 10rem;
+}
+#textinput_size{
+    font-size: medium;
+    width: 4rem;
+}
+#textinput_price{
+    font-size: medium;
+    width: 4rem;
+}
 .tableinputs{
     margin: 0px;
     width: 100%;
@@ -44,6 +57,7 @@ h3{
 .td_babs{
   text-align: center;  
 }
+
 .b_button{
     font-size: medium;
     padding: 3px;

@@ -67,26 +67,29 @@ Initate LocalStorage
         let localstorage_handler = new LocalStorageHandler();
         let product_table_array = [];
 
-        if (this.state.state_id ===""){
-            let t_product = new Product(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
-            //let t_array = this.state.state_products_table;
-            //t_array.push(t_product);
-            product_table_array = localstorage_handler.addProdukt(t_product);
+        
+        if (document.getElementById("p_name").value !== ""){
+            if (this.state.state_id ===""){
+                let t_product = new Product(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
+                //let t_array = this.state.state_products_table;
+                //t_array.push(t_product);
+                product_table_array = localstorage_handler.addProdukt(t_product);
+            }
+            else{
+                product_table_array = localstorage_handler.updateProduct(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
+            }
+
+            
+            this.setState({
+                //state_products_table: t_array
+                state_products_table: product_table_array
+            });
+
+            this.clearFields();
         }
         else{
-            product_table_array = localstorage_handler.updateProduct(this.state.state_id, this.state.state_name, this.state.state_size, this.state.state_price);
+            alert("Namn kan inte vara tomt!")
         }
-
-        
-        
-        
-        
-        this.setState({
-            //state_products_table: t_array
-            state_products_table: product_table_array
-        });
-
-        this.clearFields();
     }
 
     delButtonClick = (ev) =>  { //ändrade till arrowFunction & fick Bort! -TypeError: this is undefined
@@ -113,6 +116,9 @@ Initate LocalStorage
         }
         else
             alert("Id är tomt!");
+    }
+    clearButtonClick = (ev) => {
+        this.clearFields();
     }
 
     productTableButtClick = (ev) =>{
@@ -145,6 +151,7 @@ Initate LocalStorage
    
 
     render() {
+        
         return (
             <div className="MainBokingDiv">
                 <h1 className="h1_header">Produkter</h1>
@@ -157,6 +164,8 @@ Initate LocalStorage
                     <br />
                     <input id="p_savebutton" className="p_button" type="button" value="Spara" onClick={this.saveButtonClick} />
                     <input id="p_delbutton" className="p_button" type="button" value="Tabort" onClick={this.delButtonClick} />
+                    <input id="p_clearbutton" className="p_button" type="button" value="Töm textfält" onClick={this.clearButtonClick} />
+                    <br />
                     Id: <input type="text" className="short_textfelt" id="p_id"  readOnly />
 
                 </div>

@@ -220,9 +220,12 @@ export default class ProductDaySales extends Component {
             
         
             t_arraydaysales = localStorageDB.delProductDaySale(this.state.textinput_pd_id);
+
+            //Hämtar dagens försäljningsarray för att uppdatera tabellen
+            let temp_product_daysale_array = localStorageDB.getProductDaySales(this.state.valtDatumTextfelt);
             
             this.setState({ 
-                product_daysale_array: t_arraydaysales,
+                product_daysale_array: temp_product_daysale_array,
                 //tömmer textfelt
                 textinput_name: "",
                 textinput_pd_id: "",

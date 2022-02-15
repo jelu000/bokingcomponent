@@ -2,7 +2,8 @@ import React from 'react'
 //import PropTypes from 'prop-types'
 import Bokning from "./Bokning";
 import BokingTableButton from "./BokingTableButton";
-import './JlBokingComp.css'
+//import './JlBokingComp.css';
+import './BokingTable.css';
 
 class BokingTable extends React.Component {
   constructor(props){
@@ -70,11 +71,11 @@ class BokingTable extends React.Component {
         <table id="b_bokningstable" className="bordertable">
           <thead>
           <tr className="bordertable">
-            <th className="bordertable" id="b_t_tid">Tid</th>
-            <th className="bordertable" id="b_t_namn">Namn</th>
-            <th className="bordertable" id="b_t_tel">Tel</th>
-            <th className="bordertable" id="b_t_behandling">Behandling</th>
-            <th className="bordertable" id="b_t_valj">Välj</th>
+            <th className="bordertable" id="b_th_tid">Tid</th>
+            <th className="bordertable" id="b_th_namn">Namn</th>
+            <th className="bordertable" id="b_th_tel">Tel</th>
+            <th className="bordertable" id="b_th_behandling">Behandling</th>
+            <th className="bordertable" id="b_th_valj">Välj</th>
           </tr>
           </thead>
           <tbody>

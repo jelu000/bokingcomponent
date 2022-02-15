@@ -319,7 +319,7 @@ Initate LocalStorage
   selectTreatment(){
 
     return (
-      <select tabIndex="4" name="treatment" id="id_treatment" onChange={ this.handleClickTreatment }>
+      <select tabIndex="3" tabIndex="4" name="treatment" id="id_treatment" onChange={ this.handleClickTreatment }>
         {this.state.behandlingar.map((behandling, index) => (
           <option value={behandling.t_name} key={index}>{behandling.t_name}</option>
         ))}
@@ -455,11 +455,11 @@ createBokingTables(){
            <div className="innerdivs">Datum: <input type="date" id="valt_datum" value={this.state.valtDatumTextfelt} readOnly/></div>
 
           <div className="innerdivs"> 
-            Tid: <input type="time" id="input_time" name="appt" onChange={this.newInputTimeChange} min="07:00" max="20:00" value={this.state.state_inputtime} required></input>
+            Tid: <input type="time" tabIndex="1" id="input_time" name="appt" onChange={this.newInputTimeChange} min="07:00" max="20:00" value={this.state.state_inputtime} required></input>
           </div>
 
           <div className="innerdivs">
-            <ChoseAssistent assisarray={this.state.assistents} handleAssistentClick={this.handleAssistentClick} />
+            <ChoseAssistent tabIndex="2" assisarray={this.state.assistents} handleAssistentClick={this.handleAssistentClick} />
           </div>
 
           <div className="innerdivs">

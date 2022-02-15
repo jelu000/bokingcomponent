@@ -8,3 +8,23 @@ th, td {
   text-align: left;
   border: 1px solid black;
 }
+
+#b_th_tid{
+  width: 60px;
+
+}
+
+#b_th_namn{
+  width: 200px;
+}
+#b_th_tel{
+  width: 120px;
+}
+
+#b_th_behandling{
+  width: 260px;
+}
+
+#b_th_valj{
+  width: 60px;
+}

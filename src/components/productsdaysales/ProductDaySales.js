@@ -175,21 +175,25 @@ export default class ProductDaySales extends Component {
         //Namnet får inte vara tomt
         if (this.state.textinput_name !== "" ){
             let localStorageDB = new LocalStorageHandler();
-            let t_arraydaysales = [];
+            //let t_arraydaysales = []; OBS skulle användas för att returnera dagens bokninga men hämtar dessa i nytt request
             //ny post
             if (this.state.textinput_pd_id === ""){
                 
                 //let localStorageDB = new LocalStorageHandler();
                
                 let t_product = new Product(this.state.selected_product.p_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price );
-                t_arraydaysales = localStorageDB.addProductDaySale(this.state.checkbox_babs, this.state.valtDatumTextfelt, t_product);
+                 //RETURNERAR inte bra värde 
+                //t_arraydaysales = localStorageDB.addProductDaySale(this.state.checkbox_babs, this.state.valtDatumTextfelt, t_product);
+                localStorageDB.addProductDaySale(this.state.checkbox_babs, this.state.valtDatumTextfelt, t_product);
                                 
             }
             //updatera post
             else{
                 
                 //let localStorageDB = new LocalStorageHandler();
-                t_arraydaysales =  localStorageDB.updateDaySaleProduct(this.state.textinput_pd_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price, this.state.checkbox_babs)
+                //RETURNERAR inte bra värde
+                //t_arraydaysales =  localStorageDB.updateDaySaleProduct(this.state.textinput_pd_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price, this.state.checkbox_babs)
+                localStorageDB.updateDaySaleProduct(this.state.textinput_pd_id, this.state.textinput_name, this.state.textinput_size, this.state.textinput_price, this.state.checkbox_babs)
             }
             //Hämtar dagens försäljningsarray för att uppdatera tabellen
             let temp_product_daysale_array = localStorageDB.getProductDaySales(this.state.valtDatumTextfelt);
@@ -216,10 +220,11 @@ export default class ProductDaySales extends Component {
         console.log(`textinput_pd_id ${this.state.textinput_pd_id}`);
         if (this.state.textinput_pd_id !== ""){
             let localStorageDB = new LocalStorageHandler();
-            let t_arraydaysales = [];
             
-        
-            t_arraydaysales = localStorageDB.delProductDaySale(this.state.textinput_pd_id);
+            //let t_arraydaysales = [];
+            //t_arraydaysales = localStorageDB.delProductDaySale(this.state.textinput_pd_id);
+            //RETURNERAR inte bra värde
+            localStorageDB.delProductDaySale(this.state.textinput_pd_id);
 
             //Hämtar dagens försäljningsarray för att uppdatera tabellen
             let temp_product_daysale_array = localStorageDB.getProductDaySales(this.state.valtDatumTextfelt);

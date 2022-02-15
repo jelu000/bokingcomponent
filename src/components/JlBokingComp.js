@@ -31,8 +31,10 @@ class JlBokingComp extends React.Component {
       valtDatum: today_date, //Sätter färg för valt datum i calender Format: Tue Oct 26 2021 12:00:00 GMT+0200 (centraleuropeisk sommartid)
       valtDatumTextfelt: today_date.toLocaleDateString(), //Datumtextfält
       locale: 'swe',
-      tidtim: '8',
-      tidmin: '00',
+      //-+++++++++++++tidtim: '8',
+      //-++++++++++++++++++tidmin: '00',
+
+      state_inputtime: '10:00',
 
       //För bokning - biträde
       assistents: ["Jens", "Monica"],
@@ -78,8 +80,8 @@ class JlBokingComp extends React.Component {
     document.getElementById("id_treatment").selectedIndex=0;
 
     //Uppdaterar Tiden
-    document.getElementById("id_min").selectedIndex=0;
-    document.getElementById("id_timmar").selectedIndex=0;
+    //-+++++document.getElementById("id_min").selectedIndex=0;
+    //-+++++document.getElementById("id_timmar").selectedIndex=0;
 
     let t_treatment_name = document.getElementById("id_treatment").value
     let vald_treatment = this.state.behandlingar.find((t_object) => { return t_object.t_name === t_treatment_name; });
@@ -153,7 +155,9 @@ Initate LocalStorage
     }
     else{      
       //hämtar tid och datum inputs
-      let t_tid = this.state.tidtim + ":" + this.state.tidmin;
+      //-++++++++++++++++let t_tid = this.state.tidtim + ":" + this.state.tidmin;
+      let t_tid = this.state.state_inputtime;
+      
       let t_datum = this.state.valtDatumTextfelt;
 
       //hämtar boknings info inputs
@@ -169,8 +173,8 @@ Initate LocalStorage
         let b_id = Date.now();
         //console.log(b_id);
 
-        //skriver ut boknings koll text
-        let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}.  `
+        //skriver ut boknings koll text                                     -++++kl ${this.state.tidtim}:${this.state.tidmin}
+        let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.state_inputtime} den ${t_datum}.  `
         //Skapar boknings objekt från boknings klass
         let bokning = new Bokning(b_id ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, this.state.swish, this.state.pris);
 
@@ -192,8 +196,8 @@ Initate LocalStorage
       }
       //Om det är en ombokning
       else{
-        //skriver ut boknings koll text
-        let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.tidtim}:${this.state.tidmin} den ${t_datum}. BokningsId: ${this.state.state_bokningsId}  `
+        //skriver ut boknings koll text                                         -++++++kl ${this.state.tidtim}:${this.state.tidmin}
+        let bokningskoll_text = `${t_namn} är välkommen för ${t_behandling} kl ${this.state.state_inputtime} den ${t_datum}. BokningsId: ${this.state.state_bokningsId}  `
         //Skapar boknings objekt från boknings klass
         let bokning = new Bokning(this.state.state_bokningsId ,t_tid, t_datum, t_namn, "TheEmail",  t_tel, t_assis, t_behandling, false, this.state.swish, this.state.pris);
 
@@ -349,11 +353,11 @@ Initate LocalStorage
     document.getElementById("textfelt_tel").value = evt.t_phone;
      
     //Dela tid i tim och min 8:00 med split:
-    const t_tidarray = evt.t_time.split(":");
+    //-+++++++const t_tidarray = evt.t_time.split(":");
     
     //Sätter selecter för tid
-    document.getElementById("id_timmar").value=t_tidarray[0];
-    document.getElementById("id_min").value=t_tidarray[1];
+    //-++++++document.getElementById("id_timmar").value=t_tidarray[0];
+    //-++++++document.getElementById("id_min").value=t_tidarray[1];
     //Sätter selecten för behandling
     document.getElementById("id_treatment").value=evt.t_treatment;
     document.getElementById("selbitrade").value=evt.t_assistent;
@@ -365,8 +369,9 @@ Initate LocalStorage
       //state_valdBokning: evt,
       state_valdBokning: t_boking, 
       state_bokningsId: evt.t_id,
-      tidtim: t_tidarray[0],
-      tidmin: t_tidarray[1],
+      //-+++tidtim: t_tidarray[0],
+      //-++++tidmin: t_tidarray[1],
+      state_inputtime: evt.t_time,
       pris: t_boking.t_price,
       //för swish
       swish: evt.t_babs
@@ -414,6 +419,13 @@ createBokingTables(){
     return t_array_table;
   }//end of createBokingTables---------------------------------------------------------------
 
+  newInputTimeChange = (ev) => {
+    this.setState({
+      state_inputtime: ev.target.value
+    })
+
+    console.log(`Time: ${this.state.state_inputtime}`);
+  }
 
   //render()-------------------------------------------------------------------------------------------------
   render () {
@@ -432,7 +444,7 @@ createBokingTables(){
 
     });
 
-    
+    //-+++++++className="innerdivs">Tid {this.selectTim()}:{this.selectMin()}
     return (
       <div className="MainBokingDiv">
         <h1 className="h1_header">Bokningar</h1>
@@ -442,7 +454,9 @@ createBokingTables(){
           
            <div className="innerdivs">Datum: <input type="date" id="valt_datum" value={this.state.valtDatumTextfelt} readOnly/></div>
 
-          <div className="innerdivs">Tid {this.selectTim()}:{this.selectMin()}</div>
+          <div className="innerdivs"> 
+            Tid: <input type="time" id="input_time" name="appt" onChange={this.newInputTimeChange} min="07:00" max="20:00" value={this.state.state_inputtime} required></input>
+          </div>
 
           <div className="innerdivs">
             <ChoseAssistent assisarray={this.state.assistents} handleAssistentClick={this.handleAssistentClick} />
